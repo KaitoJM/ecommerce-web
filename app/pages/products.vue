@@ -27,19 +27,26 @@
       </div>
     </div>
     <UPageGrid class="gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-      <div v-for="n in 30" :key="n">
+      <div
+        v-for="(product, productKey) in products"
+        :key="`product-${product.id}-${productKey}`"
+      >
         <div>
           <img
-            :src="`https://picsum.photos/200/200?random=${n}`"
+            :src="product.thumbnail"
             alt="Product Image"
             class="w-full h-48 object-cover rounded-lg mb-2"
           />
-          <h3 class="font-bold">Product {{ n }}</h3>
+          <h3
+            class="font-bold text-sm max-w-full overflow-hidden whitespace-nowrap ellipsis"
+          >
+            {{ product.name }}
+          </h3>
           <p class="text-gray-600 mb-2 text-xs">
-            This is a brief description of product {{ n }}.
+            {{ product.summary }}
           </p>
           <span class="text-primary font-bold block my-2"
-            >{{ (n * 10).toFixed(2) }} PHP</span
+            >{{ product.specification?.price.toFixed(2) }} PHP</span
           >
           <div class="flex flex-col items-center justify-between gap-1">
             <UButton
@@ -64,7 +71,17 @@
 </template>
 
 <script setup lang="ts">
+import { useProductStore } from "~/store/Product.store";
+
 definePageMeta({
   layout: "catalog",
+});
+
+const productStore = useProductStore();
+
+const products = computed(() => productStore.products);
+
+onMounted(() => {
+  productStore.getProducts();
 });
 </script>
