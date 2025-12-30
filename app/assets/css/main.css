@@ -1,10 +1,2 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
-
-:root {
-  --ui-primary: orange;
-}
-
-.dark {
-  --ui-primary: orange;
-}

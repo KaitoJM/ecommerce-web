@@ -24,11 +24,21 @@ const items = computed<NavigationMenuItem[]>(() => [
 </script>
 
 <template>
-  <UHeader class="bg-primary text-white h-auto" title="">
+  <UHeader class="bg-primary-700 h-auto" title="">
     <template #left>
-      <div class="flex items-center gap-2">
+      <div class="flex items-end gap-2">
         <Logo class="h-8 w-auto" />
-        <UNavigationMenu :items="items" />
+        <ul class="flex gap-3 items-center text-sm ml-8">
+          <li v-for="link in items" :key="link.label">
+            <nuxt-link
+              :to="link.to"
+              :target="link.target"
+              class="text-white hover:underline"
+            >
+              {{ link.label }}
+            </nuxt-link>
+          </li>
+        </ul>
       </div>
     </template>
 
@@ -65,8 +75,13 @@ const items = computed<NavigationMenuItem[]>(() => [
             class="w-full max-w-xl"
           />
           <div class="flex gap-2 items-center">
-            <UButton icon="i-lucide-shopping-cart" size="xl" />
-            <UButton label="Login" variant="ghost" color="neutral" />
+            <UButton icon="i-lucide-shopping-cart" variant="ghost" size="xl" />
+            <UButton
+              label="Login"
+              variant="ghost"
+              color="neutral"
+              class="text-white"
+            />
           </div>
         </div>
       </UContainer>
