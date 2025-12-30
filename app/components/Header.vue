@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 import Logo from "./Logo.vue";
+import SearchProduct from "./tools/SearchProduct.vue";
 
 const route = useRoute();
 
@@ -26,7 +27,7 @@ const items = computed<NavigationMenuItem[]>(() => [
 <template>
   <UHeader class="bg-primary-700 h-auto" title="">
     <template #left>
-      <div class="flex items-end gap-2">
+      <div class="flex items-end gap-2 p-2">
         <Logo class="h-8 w-auto" />
         <ul class="flex gap-3 items-center text-sm ml-8">
           <li v-for="link in items" :key="link.label">
@@ -43,7 +44,7 @@ const items = computed<NavigationMenuItem[]>(() => [
     </template>
 
     <template #right>
-      <div class="flex items-center gap-1">
+      <div class="flex items-center gap-1 p-2">
         <nuxt-link to="#">
           <UButton
             icon="i-lucide-bell"
@@ -68,12 +69,7 @@ const items = computed<NavigationMenuItem[]>(() => [
     <template #bottom>
       <UContainer>
         <div class="flex gap-8 items-center justify-between py-2">
-          <UInput
-            icon="i-lucide-search"
-            variant="outline"
-            placeholder="Search..."
-            class="w-full max-w-xl"
-          />
+          <SearchProduct class="w-full max-w-xl" />
           <div class="flex gap-2 items-center">
             <UButton icon="i-lucide-shopping-cart" variant="ghost" size="xl" />
             <UButton

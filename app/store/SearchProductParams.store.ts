@@ -8,6 +8,10 @@ export const useSearchProductParamsStore = defineStore(
     const setSearchQuery = (query: string) => {
       searchQuery.value = query;
     };
+    const searchedKey = ref("");
+    const updateSearchedKey = () => {
+      searchedKey.value = searchQuery.value;
+    };
 
     // categories
     const categories = ref<string[]>([]);
@@ -27,6 +31,8 @@ export const useSearchProductParamsStore = defineStore(
     return {
       searchQuery,
       setSearchQuery,
+      searchedKey,
+      updateSearchedKey,
       categories,
       setCategories,
       priceMin,

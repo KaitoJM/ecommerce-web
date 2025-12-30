@@ -1,5 +1,9 @@
 <template>
   <UContainer>
+    <div v-if="searchedKey" class="mb-4 flex items-center gap-2">
+      <UIcon name="i-lucide-lightbulb" class="size-6 inline-block mr-2" />
+      <p>Showing results for "{{ searchedKey }}"</p>
+    </div>
     <div
       class="flex items-center gap-4 justify-between bg-neutral-50 p-4 rounded-lg mb-6"
     >
@@ -65,23 +69,37 @@
       </div>
     </UPageGrid>
     <div class="flex justify-center my-8">
-      <UPagination :total="100" />
+      <Pagination
+        :page-meta="pageMeta"
+        :links="links"
+        @update:page="handleUpdatePage"
+      />
     </div>
   </UContainer>
 </template>
 
 <script setup lang="ts">
+import Pagination from "~/components/Pagination.vue";
 import { useProductStore } from "~/store/Product.store";
+import { useSearchProductParamsStore } from "~/store/SearchProductParams.store";
 
 definePageMeta({
   layout: "catalog",
 });
 
 const productStore = useProductStore();
+const searchStore = useSearchProductParamsStore();
 
 const products = computed(() => productStore.products);
+const pageMeta = computed(() => productStore.pageMeta);
+const links = computed(() => productStore.links);
+const searchedKey = computed(() => searchStore.searchedKey);
 
 onMounted(() => {
   productStore.getProducts();
 });
+
+const handleUpdatePage = (page: number) => {
+  productStore.getProducts({ page: page });
+};
 </script>
