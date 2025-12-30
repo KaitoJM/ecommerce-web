@@ -57,10 +57,10 @@ export const useProductStore = defineStore("productStore", () => {
         : `?search=${searchStore.searchQuery}`;
     }
 
-    if (searchStore.categories?.length) {
+    if (searchStore.selectedCategoryIds?.length) {
       pageQuery += pageQuery
-        ? `&categories=${searchStore.categories.join(",")}`
-        : `?categories=${searchStore.categories.join(",")}`;
+        ? `&categories=${searchStore.selectedCategoryIds.join(",")}`
+        : `?categories=${searchStore.selectedCategoryIds.join(",")}`;
     }
 
     if (searchStore.priceMin) {

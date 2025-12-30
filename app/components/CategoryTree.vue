@@ -1,46 +1,12 @@
-<script setup lang="ts">
-import type { TreeItemSelectEvent } from "reka-ui";
-import type { TreeItem } from "@nuxt/ui";
-
-const items: TreeItem[] = [
-  {
-    label: "app/",
-    defaultExpanded: true,
-    children: [
-      {
-        label: "composables/",
-        defaultExpanded: true,
-        children: [{ label: "useAuth.ts" }, { label: "useUser.ts" }],
-      },
-      {
-        label: "components/",
-        defaultExpanded: true,
-        children: [{ label: "Card.vue" }, { label: "Button.vue" }],
-      },
-    ],
-  },
-  { label: "app.vue" },
-  { label: "nuxt.config.ts" },
-];
-
-const value = ref<typeof items>([]);
-
-function onSelect(e: TreeItemSelectEvent<TreeItem>) {
-  if (e.detail.originalEvent.type === "click") {
-    e.preventDefault();
-  }
-}
-</script>
-
 <template>
   <UTree
-    v-model="value"
+    v-model="selected"
     :as="{ link: 'div' }"
-    :items="items"
+    :items="categories"
     multiple
     propagate-select
     bubble-select
-    @select="onSelect"
+    @update:modelValue="handleSelect()"
   >
     <template #item-leading="{ selected, indeterminate, handleSelect }">
       <UCheckbox
@@ -52,3 +18,36 @@ function onSelect(e: TreeItemSelectEvent<TreeItem>) {
     </template>
   </UTree>
 </template>
+
+<script setup lang="ts">
+import type { TreeItemSelectEvent } from "reka-ui";
+import type { TreeItem } from "@nuxt/ui";
+import { useCategoryStore } from "~/store/Category.store";
+import {
+  useSearchProductParamsStore,
+  type SelectedCategory,
+} from "~/store/SearchProductParams.store";
+import { useProductStore } from "~/store/Product.store";
+
+const categoryStore = useCategoryStore();
+const searchStore = useSearchProductParamsStore();
+const productStore = useProductStore();
+
+const selected = ref<TreeItem[]>([]);
+const categories = computed<TreeItem[]>(() =>
+  categoryStore.categories.map((cat) => ({
+    label: cat.name,
+    value: cat.id,
+  }))
+);
+
+onMounted(() => {
+  categoryStore.getCategories();
+});
+
+const handleSelect = (event?: TreeItemSelectEvent) => {
+  searchStore.updateCategories(selected.value as SelectedCategory[]);
+
+  productStore.getProducts();
+};
+</script>
