@@ -9,6 +9,7 @@ const items: TreeItem[] = [
     children: [
       {
         label: "composables/",
+        defaultExpanded: true,
         children: [{ label: "useAuth.ts" }, { label: "useUser.ts" }],
       },
       {

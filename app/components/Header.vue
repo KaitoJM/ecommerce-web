@@ -24,26 +24,58 @@ const items = computed<NavigationMenuItem[]>(() => [
 </script>
 
 <template>
-  <UHeader>
-    <template #title>
-      <Logo class="h-10 w-auto" />
+  <UHeader class="bg-primary text-white h-auto" title="">
+    <template #left>
+      <UNavigationMenu :items="items" />
     </template>
 
-    <UNavigationMenu :items="items" />
-
     <template #right>
-      <UColorModeButton />
-
-      <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
-        <UButton
-          color="neutral"
-          variant="ghost"
-          to="https://github.com/nuxt/ui"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
+      <div class="flex items-center gap-1">
+        <nuxt-link to="#">
+          <UButton
+            icon="i-lucide-bell"
+            size="md"
+            label="Notifications"
+            variant="ghost"
+            class="text-white"
+          />
+        </nuxt-link>
+        <nuxt-link to="#">
+          <UButton
+            icon="i-lucide-circle-question-mark"
+            size="md"
+            label="Help"
+            variant="ghost"
+            class="text-white"
+          />
+        </nuxt-link>
+        <UUser
+          size="sm"
+          name="Juan Marcus"
+          :avatar="{
+            src: 'https://github.com/benjamincanac.png',
+          }"
+          class="text-white"
         />
-      </UTooltip>
+      </div>
+    </template>
+
+    <template #bottom>
+      <UContainer>
+        <div class="flex gap-8 items-center justify-between py-4">
+          <div class="w-50">
+            <Logo class="h-10 w-auto" />
+          </div>
+          <UInput
+            icon="i-lucide-search"
+            size="xl"
+            variant="outline"
+            placeholder="Search..."
+            class="flex-1"
+          />
+          <UButton icon="i-lucide-shopping-cart" size="xl" />
+        </div>
+      </UContainer>
     </template>
   </UHeader>
 </template>
