@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BrandSelectionList from "~/components/tools/BrandSelectionList.vue";
 import CategoryTree from "~/components/tools/CategoryTree.vue";
 import PriceRange from "~/components/tools/PriceRange.vue";
 </script>
@@ -18,7 +19,7 @@ import PriceRange from "~/components/tools/PriceRange.vue";
           <h4 class="text-xs mt-4 mb-2">Price Range</h4>
           <PriceRange />
           <h4 class="text-xs mt-4 mb-2">Brands</h4>
-          <CategoryTree />
+          <BrandSelectionList />
         </div>
       </UPageAside>
     </template>

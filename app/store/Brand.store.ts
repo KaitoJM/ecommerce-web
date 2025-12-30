@@ -1,14 +1,14 @@
 import type { FetchError } from "ofetch";
 import type { ArrowLink, PageMeta } from "~/components/Pagination.vue";
-import type { Category } from "~/types/Category.type";
 import type {
   ApiError,
   ApiPaginated,
   ApiSuccess,
 } from "~/types/ApiResponses.type";
 import { defineStore } from "pinia";
+import type { Brand } from "~/types/Brand.type";
 
-export const useCategoryStore = defineStore("categoryStore", () => {
+export const useBrandStore = defineStore("brandStore", () => {
   const config = useRuntimeConfig();
   const pageMeta = ref<PageMeta>({
     current_page: 1,
@@ -35,19 +35,19 @@ export const useCategoryStore = defineStore("categoryStore", () => {
   });
 
   const fetching = ref<boolean>(false);
-  const categories = ref<Category[]>([]);
+  const brands = ref<Brand[]>([]);
 
-  const getCategories = async (): Promise<ApiPaginated<Category>> => {
+  const getBrands = async (): Promise<ApiPaginated<Brand>> => {
     fetching.value = true;
 
     let pageQuery = "?page=1&per_page=100";
 
     try {
-      const res: ApiPaginated<Category> = await $fetch(
-        `${config.public.apiBase}/site/categories${pageQuery}`
+      const res: ApiPaginated<Brand> = await $fetch(
+        `${config.public.apiBase}/site/brands${pageQuery}`
       );
 
-      categories.value = res.data;
+      brands.value = res.data;
       pageMeta.value = res.meta;
       fetching.value = false;
       links.value = res.links;
@@ -66,16 +66,16 @@ export const useCategoryStore = defineStore("categoryStore", () => {
         statusCode: fetchError.status,
       };
 
-      console.error(`Failed to fetch categories:`, error);
+      console.error(`Failed to fetch brands:`, error);
       throw apiError;
     }
   };
 
   return {
-    categories,
+    brands,
     fetching,
     pageMeta,
     links,
-    getCategories,
+    getBrands,
   };
 });

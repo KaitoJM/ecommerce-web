@@ -2,11 +2,10 @@
   <UTree
     v-model="selected"
     :as="{ link: 'div' }"
-    :items="categories"
+    :items="brands"
     multiple
     propagate-select
     bubble-select
-    @update:modelValue="handleSelect()"
   >
     <template #item-leading="{ selected, indeterminate, handleSelect }">
       <UCheckbox
@@ -21,32 +20,31 @@
 
 <script setup lang="ts">
 import type { TreeItem } from "@nuxt/ui";
-import { useCategoryStore } from "~/store/Category.store";
 import {
   useSearchProductParamsStore,
   type SelectedCategory,
 } from "~/store/SearchProductParams.store";
 import { useProductStore } from "~/store/Product.store";
+import { useBrandStore } from "~/store/Brand.store";
 
-const categoryStore = useCategoryStore();
+const brandStore = useBrandStore();
 const searchStore = useSearchProductParamsStore();
 const productStore = useProductStore();
 
 const selected = ref<TreeItem[]>([]);
-const categories = computed<TreeItem[]>(() =>
-  categoryStore.categories.map((cat) => ({
+const brands = computed<TreeItem[]>(() =>
+  brandStore.brands.map((cat) => ({
     label: cat.name,
     value: cat.id,
   }))
 );
 
 onMounted(() => {
-  categoryStore.getCategories();
+  brandStore.getBrands();
 });
 
 const handleSelect = () => {
-  searchStore.updateCategories(selected.value as SelectedCategory[]);
-
-  productStore.getProducts();
+  //   searchStore.updateCategories(selected.value as SelectedCategory[]);
+  //   productStore.getProducts();
 };
 </script>
