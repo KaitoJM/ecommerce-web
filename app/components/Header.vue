@@ -26,7 +26,10 @@ const items = computed<NavigationMenuItem[]>(() => [
 <template>
   <UHeader class="bg-primary text-white h-auto" title="">
     <template #left>
-      <UNavigationMenu :items="items" />
+      <div class="flex items-center gap-2">
+        <Logo class="h-8 w-auto" />
+        <UNavigationMenu :items="items" />
+      </div>
     </template>
 
     <template #right>
@@ -49,31 +52,22 @@ const items = computed<NavigationMenuItem[]>(() => [
             class="text-white"
           />
         </nuxt-link>
-        <UUser
-          size="sm"
-          name="Juan Marcus"
-          :avatar="{
-            src: 'https://github.com/benjamincanac.png',
-          }"
-          class="text-white"
-        />
       </div>
     </template>
 
     <template #bottom>
       <UContainer>
-        <div class="flex gap-8 items-center justify-between py-4">
-          <div class="w-50">
-            <Logo class="h-10 w-auto" />
-          </div>
+        <div class="flex gap-8 items-center justify-between py-2">
           <UInput
             icon="i-lucide-search"
-            size="xl"
             variant="outline"
             placeholder="Search..."
-            class="flex-1"
+            class="w-full max-w-xl"
           />
-          <UButton icon="i-lucide-shopping-cart" size="xl" />
+          <div class="flex gap-2 items-center">
+            <UButton icon="i-lucide-shopping-cart" size="xl" />
+            <UButton label="Login" variant="ghost" color="neutral" />
+          </div>
         </div>
       </UContainer>
     </template>

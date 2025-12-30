@@ -7,13 +7,14 @@
         <NuxtPage />
       </NuxtLayout>
     </UMain>
-    <UFooter />
+    <Footer></Footer>
   </UApp>
 </template>
 
 <script setup lang="ts">
 import type { ToasterProps } from "@nuxt/ui";
 import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 
 const toasterConfig: ToasterProps = {
   duration: 5000,
