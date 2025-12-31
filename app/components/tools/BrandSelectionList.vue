@@ -6,6 +6,7 @@
     multiple
     propagate-select
     bubble-select
+    @update:modelValue="handleSelect()"
   >
     <template #item-leading="{ selected, indeterminate, handleSelect }">
       <UCheckbox
@@ -22,7 +23,7 @@
 import type { TreeItem } from "@nuxt/ui";
 import {
   useSearchProductParamsStore,
-  type SelectedCategory,
+  type SelectedBrand,
 } from "~/store/SearchProductParams.store";
 import { useProductStore } from "~/store/Product.store";
 import { useBrandStore } from "~/store/Brand.store";
@@ -44,7 +45,7 @@ onMounted(() => {
 });
 
 const handleSelect = () => {
-  //   searchStore.updateCategories(selected.value as SelectedCategory[]);
-  //   productStore.getProducts();
+  searchStore.updateBrands(selected.value as SelectedBrand[]);
+  productStore.getProducts();
 };
 </script>

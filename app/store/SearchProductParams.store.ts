@@ -5,6 +5,11 @@ export interface SelectedCategory {
   label: string;
 }
 
+export interface SelectedBrand {
+  value: string;
+  label: string;
+}
+
 export const useSearchProductParamsStore = defineStore(
   "searchProductParams",
   () => {
@@ -41,6 +46,21 @@ export const useSearchProductParamsStore = defineStore(
       priceMax.value = max;
     };
 
+    // brands
+    const brands = ref<SelectedBrand[]>([]);
+    const setBrands = (brand: SelectedBrand) => {
+      if (brands.value.includes(brand)) return;
+      brands.value.push(brand);
+    };
+
+    const updateBrands = (newBrands: SelectedBrand[]) => {
+      brands.value = newBrands;
+    };
+
+    const selectedBrandIds = computed<string[]>(() => {
+      return brands.value.map((brand) => brand.value);
+    });
+
     return {
       searchQuery,
       setSearchQuery,
@@ -53,6 +73,10 @@ export const useSearchProductParamsStore = defineStore(
       priceMin,
       priceMax,
       setPriceRange,
+      brands,
+      selectedBrandIds,
+      setBrands,
+      updateBrands,
     };
   }
 );

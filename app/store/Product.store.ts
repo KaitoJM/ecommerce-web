@@ -75,6 +75,12 @@ export const useProductStore = defineStore("productStore", () => {
         : `?price_max=${searchStore.priceMax}`;
     }
 
+    if (searchStore.selectedBrandIds?.length) {
+      pageQuery += pageQuery
+        ? `&brands=${searchStore.selectedBrandIds.join(",")}`
+        : `?brands=${searchStore.selectedBrandIds.join(",")}`;
+    }
+
     try {
       const res: ApiPaginated<Product> = await $fetch(
         `${config.public.apiBase}/site/products${pageQuery}`
