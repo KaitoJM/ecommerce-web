@@ -5,11 +5,12 @@
       alt="Product Image"
       class="w-full h-48 object-cover rounded-lg mb-2"
     />
-    <h3
-      class="font-bold text-sm max-w-full overflow-hidden whitespace-nowrap ellipsis"
+    <nuxt-link
+      :to="`/${data.id}`"
+      class="font-bold text-sm max-w-full overflow-hidden whitespace-nowrap ellipsis block"
     >
       {{ data.name }}
-    </h3>
+    </nuxt-link>
     <p class="text-gray-600 mb-2 text-xs">
       {{ data.summary }}
     </p>
