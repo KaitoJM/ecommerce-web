@@ -1,9 +1,7 @@
 <template>
   <UContainer>
     <div class="flex gap-18">
-      <UCarousel v-slot="{ item }" arrows :items="items" class="flex-1 mx-auto">
-        <img :src="item" class="rounded-lg" />
-      </UCarousel>
+      <ProductImageSlider :items="images" class="flex-1" />
       <div class="flex-1 flex flex-col gap-4">
         <h1 class="font-bold text-3xl">{{ product?.name }}</h1>
         <div class="flex items-center gap-2">
@@ -88,24 +86,22 @@
 </template>
 
 <script setup lang="ts">
+import ProductImageSlider from "~/components/product/ProductImageSlider.vue";
+import { useProductImageStore } from "~/store/ProductImageStore";
 import { useProductSingleStore } from "~/store/ProductSingleStore";
 
 const productDataStore = useProductSingleStore();
+const productImageStore = useProductImageStore();
 const route = useRoute();
 
 const product = computed(() => productDataStore.product);
 const quantity = ref(1);
+const images = computed(() =>
+  productImageStore.productImages.map((image) => image.source)
+);
 
 onMounted(async () => {
   await productDataStore.getProduct(route.params.product_slug as string);
+  await productImageStore.getProductImages(route.params.product_slug as string);
 });
-
-const items = [
-  "https://picsum.photos/640/640?random=1",
-  "https://picsum.photos/640/640?random=2",
-  "https://picsum.photos/640/640?random=3",
-  "https://picsum.photos/640/640?random=4",
-  "https://picsum.photos/640/640?random=5",
-  "https://picsum.photos/640/640?random=6",
-];
 </script>
