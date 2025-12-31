@@ -30,44 +30,31 @@
         />
       </div>
     </div>
-    <UPageGrid class="gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-      <div
-        v-for="(product, productKey) in products"
-        :key="`product-${product.id}-${productKey}`"
-      >
-        <div>
-          <img
-            :src="product.thumbnail"
-            alt="Product Image"
-            class="w-full h-48 object-cover rounded-lg mb-2"
-          />
-          <h3
-            class="font-bold text-sm max-w-full overflow-hidden whitespace-nowrap ellipsis"
-          >
-            {{ product.name }}
-          </h3>
-          <p class="text-gray-600 mb-2 text-xs">
-            {{ product.summary }}
-          </p>
-          <span class="text-primary font-bold block my-2"
-            >{{ product.specification?.price.toFixed(2) }} PHP</span
-          >
-          <div class="flex flex-col items-center justify-between gap-1">
-            <UButton
-              label="Add to Cart"
-              color="primary"
-              variant="outline"
-              class="w-full flex justify-center"
-            />
-            <UButton
-              label="Buy Now"
-              color="primary"
-              class="w-full flex justify-center"
-            />
-          </div>
-        </div>
+    <template v-if="loading">
+      <UPageGrid class="gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+        <ProductThumbnailSkeleton v-for="n in 10" :key="n" />
+      </UPageGrid>
+    </template>
+    <template v-else-if="products.length === 0">
+      <div class="flex items-center justify-center min-h-100 w-full">
+        <UEmpty
+          variant="naked"
+          icon="i-lucide-file"
+          title="No products found"
+          description="It looks like the search query returned no results."
+        />
       </div>
-    </UPageGrid>
+    </template>
+    <template v-else>
+      <UPageGrid class="gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+        <div
+          v-for="(product, productKey) in products"
+          :key="`product-${product.id}-${productKey}`"
+        >
+          <ProductThumbnail :data="product" />
+        </div>
+      </UPageGrid>
+    </template>
     <div class="flex justify-center my-8">
       <Pagination
         :page-meta="pageMeta"
@@ -80,6 +67,8 @@
 
 <script setup lang="ts">
 import Pagination from "~/components/Pagination.vue";
+import ProductThumbnailSkeleton from "~/components/preloaders/ProductThumbnailSkeleton.vue";
+import ProductThumbnail from "~/components/product/ProductThumbnail.vue";
 import { useProductStore } from "~/store/Product.store";
 import { useSearchProductParamsStore } from "~/store/SearchProductParams.store";
 
@@ -94,6 +83,7 @@ const products = computed(() => productStore.products);
 const pageMeta = computed(() => productStore.pageMeta);
 const links = computed(() => productStore.links);
 const searchedKey = computed(() => searchStore.searchedKey);
+const loading = computed(() => productStore.fetching);
 
 onMounted(() => {
   productStore.getProducts();
