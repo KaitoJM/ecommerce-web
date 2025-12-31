@@ -87,8 +87,8 @@
 
 <script setup lang="ts">
 import ProductImageSlider from "~/components/product/ProductImageSlider.vue";
-import { useProductImageStore } from "~/store/ProductImageStore";
-import { useProductSingleStore } from "~/store/ProductSingleStore";
+import { useProductImageStore } from "~/store/ProductImage.store";
+import { useProductSingleStore } from "~/store/ProductSingle.store";
 
 const productDataStore = useProductSingleStore();
 const productImageStore = useProductImageStore();

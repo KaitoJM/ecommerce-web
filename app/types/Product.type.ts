@@ -16,7 +16,7 @@ export interface ProductSpecification {
   default: boolean;
   sale: boolean;
   sale_price?: number;
-  images: string[];
+  images: string;
   created_at: string;
 }
 
