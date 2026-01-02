@@ -27,36 +27,11 @@
         <div>
           <h4 class="mb-2 text-xs uppercase font-bold mt-4">Variants</h4>
           <div class="flex gap-2 flex-wrap">
-            <UBadge
-              :avatar="{
-                src: 'https://github.com/nuxt.png',
-              }"
-              size="md"
-              color="neutral"
-              variant="outline"
-            >
-              Red | 12oz
-            </UBadge>
-            <UBadge
-              :avatar="{
-                src: 'https://github.com/nuxt.png',
-              }"
-              size="md"
-              color="neutral"
-              variant="outline"
-            >
-              Red | 12oz
-            </UBadge>
-            <UBadge
-              :avatar="{
-                src: 'https://github.com/nuxt.png',
-              }"
-              size="md"
-              color="neutral"
-              variant="outline"
-            >
-              Red | 12oz
-            </UBadge>
+            <ProductSpecificationSelect
+              :specifications="specifications"
+              :selected="selectedSpecification"
+              @update:selected="(value:string) => (selectedSpecification = value)"
+            />
           </div>
         </div>
         <div>
@@ -89,19 +64,35 @@
 import ProductImageSlider from "~/components/product/ProductImageSlider.vue";
 import { useProductImageStore } from "~/store/ProductImage.store";
 import { useProductSingleStore } from "~/store/ProductSingle.store";
+import { useProductSpecificationStore } from "~/store/ProductSpecification.store";
 
 const productDataStore = useProductSingleStore();
 const productImageStore = useProductImageStore();
+const productSpecificationStore = useProductSpecificationStore();
 const route = useRoute();
 
 const product = computed(() => productDataStore.product);
-const quantity = ref(1);
 const images = computed(() =>
   productImageStore.productImages.map((image) => image.source)
 );
+const specifications = computed(
+  () => productSpecificationStore.productSpecifications
+);
+
+const quantity = ref(1);
+const selectedSpecification = ref<string | null>(null);
 
 onMounted(async () => {
+  productImageStore.getProductImages(route.params.product_slug as string);
   await productDataStore.getProduct(route.params.product_slug as string);
-  await productImageStore.getProductImages(route.params.product_slug as string);
+
+  await productSpecificationStore.getProductSpecifications(
+    route.params.product_slug as string
+  );
+
+  selectedSpecification.value =
+    specifications.value.find((spec) => spec.default)?.id ??
+    specifications.value[0]?.id ??
+    null;
 });
 </script>
