@@ -2,6 +2,7 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 import Logo from "./Logo.vue";
 import SearchProduct from "./tools/SearchProduct.vue";
+import CartPopOver from "./cart/CartPopOver.vue";
 
 const route = useRoute();
 
@@ -71,7 +72,7 @@ const items = computed<NavigationMenuItem[]>(() => [
         <div class="flex gap-8 items-center justify-between py-2">
           <SearchProduct class="w-full max-w-xl" />
           <div class="flex gap-2 items-center">
-            <UButton icon="i-lucide-shopping-cart" variant="ghost" size="xl" />
+            <CartPopOver />
             <UButton
               label="Login"
               variant="ghost"
