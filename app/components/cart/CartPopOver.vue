@@ -36,7 +36,11 @@
                 <div class="flex gap-4 items-center justify-between">
                   <p class="font-bold text-xs flex-1">
                     {{ cartItem.product.name }}
-                    <span>125GB | Red</span>
+                    <span class="font-normal opacity-50">{{
+                      specificationComposable.formatSpecification(
+                        cartItem.specification.combination
+                      )
+                    }}</span>
                   </p>
                   <UButton
                     @click="
@@ -80,6 +84,7 @@
 import { useCartStore } from "~/store/Cart.store";
 
 const cartStore = useCartStore();
+const specificationComposable = useSpecification();
 
 const cart = computed(() => cartStore.carts);
 
