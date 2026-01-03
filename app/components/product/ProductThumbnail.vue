@@ -7,7 +7,7 @@
     />
     <nuxt-link
       :to="`/${data.id}`"
-      class="font-bold text-sm max-w-full overflow-hidden whitespace-nowrap ellipsis block"
+      class="font-bold text-sm max-w-full overflow-hidden whitespace-nowrap ellipsis block hover:text-primary"
     >
       {{ data.name }}
     </nuxt-link>
