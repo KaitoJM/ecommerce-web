@@ -10,7 +10,7 @@
       <UButton icon="i-lucide-shopping-cart" variant="ghost" size="xl" />
     </UChip>
 
-    <template #content>
+    <template #content="{ close }">
       <div class="p-4 w-80">
         <template v-if="cart.length === 0">
           <UEmpty
@@ -70,6 +70,7 @@
             </li>
           </ul>
           <UButton
+            @click="close"
             to="/cart"
             label="View Cart"
             color="primary"

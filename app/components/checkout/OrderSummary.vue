@@ -56,12 +56,6 @@
         <p class="font-bold text-lg text-primary">{{ total.toFixed(2) }} PHP</p>
       </li>
     </ul>
-    <UButton
-      to="/checkout"
-      label="Proceed to Checkout"
-      class="flex justify-center w-full mt-8"
-      size="xl"
-    />
   </div>
 </template>
 

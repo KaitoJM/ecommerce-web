@@ -8,7 +8,7 @@ export const useSpecification = () => {
       if (key == 0) {
         label += `${item.value} `;
       } else {
-        label += `| ${item.value}`;
+        label += ` | ${item.value}`;
       }
     });
 
