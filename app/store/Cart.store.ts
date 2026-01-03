@@ -33,10 +33,27 @@ export const useCartStore = defineStore("cartStore", () => {
     loadCart();
   };
 
+  const updateQuantity = (
+    productId: string,
+    specificationId: string,
+    quantity: number
+  ) => {
+    const item = carts.value.find(
+      (i) =>
+        i.product.id === productId && i.specification.id === specificationId
+    );
+
+    if (!item) return;
+
+    item.quantity = quantity;
+    cartLocal.setCart(carts.value);
+  };
+
   return {
     carts,
     loadCart,
     addToCart,
     removeItemFromCart,
+    updateQuantity,
   };
 });

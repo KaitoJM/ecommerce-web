@@ -70,6 +70,7 @@
             </li>
           </ul>
           <UButton
+            to="/cart"
             label="View Cart"
             color="primary"
             class="w-full mt-4 flex justify-center"
