@@ -66,6 +66,12 @@
               <td class="w-1/12 border-t border-accented border-dashed p-2">
                 <div class="flex justify-end gap-2">
                   <UButton
+                    @click="
+                      handleRemoveItemClick(
+                        cartItem.productId,
+                        cartItem.specificationId
+                      )
+                    "
                     icon="i-lucide-trash"
                     variant="ghost"
                     size="sm"
