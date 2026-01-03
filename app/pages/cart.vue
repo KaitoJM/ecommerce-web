@@ -77,17 +77,15 @@
           </tbody>
         </table>
       </div>
-      <div class="w-1/3">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur
-        suscipit iure harum necessitatibus, non soluta tenetur. Excepturi
-        voluptatibus animi in tempora ullam temporibus inventore atque sequi?
-        Tempora exercitationem velit provident!
+      <div class="w-80">
+        <CartSummary />
       </div>
     </div>
   </UContainer>
 </template>
 
 <script setup lang="ts">
+import CartSummary from "~/components/cart/CartSummary.vue";
 import { useCartStore } from "~/store/Cart.store";
 
 const cartStore = useCartStore();
