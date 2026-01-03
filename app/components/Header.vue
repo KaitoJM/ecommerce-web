@@ -30,7 +30,7 @@ const items = computed<NavigationMenuItem[]>(() => [
     <template #left>
       <div class="flex items-end gap-2 p-2">
         <Logo class="h-8 w-auto" />
-        <ul class="flex gap-3 items-center text-sm ml-8">
+        <ul class="hidden lg:flex gap-3 items-center text-sm ml-8">
           <li v-for="link in items" :key="link.label">
             <nuxt-link
               :to="link.to"
@@ -82,6 +82,10 @@ const items = computed<NavigationMenuItem[]>(() => [
           </div>
         </div>
       </UContainer>
+    </template>
+
+    <template #body>
+      <UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5" />
     </template>
   </UHeader>
 </template>

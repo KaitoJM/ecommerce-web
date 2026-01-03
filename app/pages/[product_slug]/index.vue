@@ -1,6 +1,6 @@
 <template>
   <UContainer>
-    <div class="flex gap-18">
+    <div class="flex flex-col md:flex-row gap-4 md:gap-18">
       <ProductImageSlider :items="images" class="flex-1" />
       <div class="flex-1 flex flex-col gap-4">
         <h1 class="font-bold text-3xl">{{ product?.name }}</h1>

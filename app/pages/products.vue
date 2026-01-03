@@ -7,26 +7,14 @@
     <div
       class="flex items-center gap-4 justify-between bg-neutral-50 p-4 rounded-lg mb-6"
     >
-      <div class="flex items-center gap-2">
-        <span class="text-sm">Sort By: </span>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="w-full sm:w-fit text-sm">Sort By: </span>
         <UButton label="Relevance" />
         <UButton label="Latest" variant="outline" />
         <UButton label="Top Sales" variant="outline" />
         <USelect
           placeholder="Price"
           :items="['Price: Low to High', 'Price: High to Low']"
-        />
-      </div>
-      <div class="flex items-center gap-2">
-        <UButton
-          icon="i-lucide-chevron-left"
-          color="neutral"
-          variant="outline"
-        />
-        <UButton
-          icon="i-lucide-chevron-right"
-          color="neutral"
-          variant="outline"
         />
       </div>
     </div>
