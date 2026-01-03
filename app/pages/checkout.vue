@@ -8,7 +8,7 @@
         <ShippingInformation class="mt-4" />
         <PaymentInformation class="mt-4" />
       </div>
-      <div class="flex-1 md:w-1/3">
+      <div class="w-full md:w-1/3">
         <OrderSummary />
       </div>
     </div>
