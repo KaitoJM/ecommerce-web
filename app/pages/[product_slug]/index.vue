@@ -20,9 +20,10 @@
           <USeparator orientation="vertical" class="h-4" />
           <p class="text-sm text-gray-600">10K+ Sold</p>
         </div>
-        <span class="text-primary font-bold text-2xl"
-          >{{ product?.specification?.price.toFixed(2) }} PHP</span
-        >
+        <span class="text-primary font-bold text-2xl">
+          {{ formatter.formatNumber(product.specification.price) }}
+          <span class="text-xs text-neutral">PHP</span>
+        </span>
         <p>{{ product.summary }}</p>
         <div>
           <h4 class="mb-2 text-xs uppercase font-bold mt-4">Variants</h4>
@@ -75,6 +76,7 @@ const productSpecificationStore = useProductSpecificationStore();
 const cartStore = useCartStore();
 const route = useRoute();
 const toast = useToast();
+const formatter = useFormatter();
 
 const product = computed(() => productDataStore.product);
 const images = computed(() =>

@@ -14,6 +14,17 @@ export const useProductSingleStore = defineStore("productSingleStore", () => {
     description: "",
     published: "",
     categories: [],
+    specification: {
+      id: "",
+      combination: "",
+      product_id: "",
+      price: 0,
+      stock: 0,
+      default: true,
+      sale: false,
+      images: "",
+      created_at: "",
+    },
     brand_id: "",
     created_at: "",
   });

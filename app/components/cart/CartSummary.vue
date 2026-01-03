@@ -4,22 +4,34 @@
     <ul v-if="cart.length" class="flex flex-col gap-1">
       <li class="flex gap-4 justify-between items-center">
         <p>Sub Total</p>
-        <p class="font-bold">{{ subtotal.toFixed(2) }} PHP</p>
+        <p class="font-bold">
+          {{ formatter.formatNumber(subtotal) }}
+          <span class="text-xs text-neutral">PHP</span>
+        </p>
       </li>
       <li class="flex gap-4 justify-between items-center">
         <p>Discount (0%)</p>
-        <p class="font-bold">{{ discount.toFixed(2) }} PHP</p>
+        <p class="font-bold">
+          {{ formatter.formatNumber(discount) }}
+          <span class="text-xs text-neutral">PHP</span>
+        </p>
       </li>
       <li class="flex gap-4 justify-between items-center">
         <p>Delivery fee</p>
-        <p class="font-bold">{{ shippingFee.toFixed(2) }} PHP</p>
+        <p class="font-bold">
+          {{ formatter.formatNumber(shippingFee) }}
+          <span class="text-xs text-neutral">PHP</span>
+        </p>
       </li>
     </ul>
     <USeparator class="my-4" />
     <ul v-if="cart.length" class="flex flex-col gap-1">
       <li class="flex gap-4 justify-between items-center">
         <p>Total</p>
-        <p class="font-bold text-lg text-primary">{{ total.toFixed(2) }} PHP</p>
+        <p class="font-bold text-lg text-primary">
+          {{ formatter.formatNumber(total) }}
+          <span class="text-xs text-neutral">PHP</span>
+        </p>
       </li>
     </ul>
     <UButton
@@ -34,6 +46,7 @@
 <script setup lang="ts">
 import { useCartStore } from "~/store/Cart.store";
 const cartStore = useCartStore();
+const formatter = useFormatter();
 
 const cart = computed(() => cartStore.carts);
 const subtotal = computed(() => {

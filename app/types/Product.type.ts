@@ -30,7 +30,7 @@ export interface Product {
   categories: Category[];
   brand?: Brand;
   brand_id: string;
-  specification?: ProductSpecification;
+  specification: ProductSpecification;
   created_at: string;
 }
 

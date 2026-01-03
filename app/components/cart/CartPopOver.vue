@@ -57,14 +57,14 @@
                 </div>
                 <div class="flex gap-4 items-center justify-between">
                   <span class="text-xs">QTY: {{ cartItem.quantity }}</span>
-                  <span class="text-primary text-sm font-bold"
-                    >{{
-                      (
+                  <span class="text-primary text-sm font-bold">
+                    {{
+                      formatter.formatNumber(
                         cartItem.quantity * cartItem.specification.price
-                      ).toFixed(2)
+                      )
                     }}
-                    PHP</span
-                  >
+                    <span class="text-xs text-neutral">PHP</span>
+                  </span>
                 </div>
               </div>
             </li>
@@ -87,6 +87,7 @@ import { useCartStore } from "~/store/Cart.store";
 
 const cartStore = useCartStore();
 const specificationComposable = useSpecification();
+const formatter = useFormatter();
 
 const cart = computed(() => cartStore.carts);
 

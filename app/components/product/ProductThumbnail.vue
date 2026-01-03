@@ -14,9 +14,10 @@
     <p class="text-gray-600 mb-2 text-xs">
       {{ data.summary }}
     </p>
-    <span class="text-primary font-bold block my-2"
-      >{{ data.specification?.price.toFixed(2) }} PHP</span
-    >
+    <span class="text-primary font-bold block my-2">
+      {{ formatter.formatNumber(data.specification.price) }}
+      <span class="text-xs text-neutral">PHP</span>
+    </span>
     <div class="flex flex-col items-center justify-between gap-1">
       <UButton
         label="Add to Cart"
@@ -39,4 +40,6 @@ import type { Product } from "~/types/Product.type";
 const props = defineProps<{
   data: Product;
 }>();
+
+const formatter = useFormatter();
 </script>

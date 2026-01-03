@@ -34,7 +34,8 @@
                       }}
                     </p>
                     <p class="text-sm text-primary font-bold">
-                      {{ cartItem.specification.price }} PHP
+                      {{ formatter.formatNumber(cartItem.specification.price) }}
+                      <span class="text-xs text-neutral">PHP</span>
                     </p>
                   </div>
                 </div>
@@ -56,11 +57,11 @@
               <td class="w-2/12 border-t border-accented border-dashed p-2">
                 <p>
                   {{
-                    (cartItem.quantity * cartItem.specification.price).toFixed(
-                      2
+                    formatter.formatNumber(
+                      cartItem.quantity * cartItem.specification.price
                     )
                   }}
-                  PHP
+                  <span class="text-xs text-neutral">PHP</span>
                 </p>
               </td>
               <td class="w-1/12 border-t border-accented border-dashed p-2">
@@ -96,6 +97,7 @@ import { useCartStore } from "~/store/Cart.store";
 
 const cartStore = useCartStore();
 const specificationComposable = useSpecification();
+const formatter = useFormatter();
 
 const cart = computed(() => cartStore.carts);
 
