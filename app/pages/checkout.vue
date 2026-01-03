@@ -1,7 +1,24 @@
 <template>
   <UContainer>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis aliquam
-    iusto quis sed mollitia iure in quo vero doloribus nostrum assumenda quod
-    incidunt possimus, quisquam ullam beatae commodi esse natus.
+    <div class="flex gap-8">
+      <div class="flex-1">
+        <h1 class="text-3xl font-bold">Checkout</h1>
+        <CustomerInformation class="mt-4" />
+        <AddressInformation class="mt-4" />
+        <ShippingInformation class="mt-4" />
+        <PaymentInformation class="mt-4" />
+      </div>
+      <div class="w-1/3">
+        <OrderSummary />
+      </div>
+    </div>
   </UContainer>
 </template>
+
+<script setup lang="ts">
+import AddressInformation from "~/components/checkout/AddressInformation.vue";
+import CustomerInformation from "~/components/checkout/CustomerInformation.vue";
+import OrderSummary from "~/components/checkout/OrderSummary.vue";
+import PaymentInformation from "~/components/checkout/PaymentInformation.vue";
+import ShippingInformation from "~/components/checkout/ShippingInformation.vue";
+</script>

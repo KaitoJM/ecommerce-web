@@ -44,11 +44,11 @@
                   :min="1"
                   v-model="cartItem.quantity"
                   @update:model-value="
-                    (value) =>
+                    (value:number) =>
                       cartStore.updateQuantity(
                         cartItem.product.id,
                         cartItem.specification.id,
-                        value as number
+                        value
                       )
                   "
                 />
