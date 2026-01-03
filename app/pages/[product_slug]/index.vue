@@ -35,21 +35,22 @@
           </div>
         </div>
         <div>
-          <form>
+          <form @submit.prevent="handleAddToCart">
             <h4 class="mb-2 text-xs uppercase font-bold mt-4">Quantity</h4>
             <UInputNumber v-model="quantity" />
             <div class="mt-2 flex gap-2 items-center w-80">
               <UButton
+                type="submit"
                 label="Add to Cart"
                 color="primary"
                 size="xl"
-                variant="outline"
                 class="flex-1 flex justify-center"
               />
               <UButton
                 label="Buy Now"
                 color="primary"
                 size="xl"
+                variant="outline"
                 class="flex-1 flex justify-center"
               />
             </div>
@@ -65,11 +66,15 @@ import ProductImageSlider from "~/components/product/ProductImageSlider.vue";
 import { useProductImageStore } from "~/store/ProductImage.store";
 import { useProductSingleStore } from "~/store/ProductSingle.store";
 import { useProductSpecificationStore } from "~/store/ProductSpecification.store";
+import type { Product, ProductSpecification } from "~/types/Product.type";
+import { useCartStore } from "~/store/Cart.store";
 
 const productDataStore = useProductSingleStore();
 const productImageStore = useProductImageStore();
 const productSpecificationStore = useProductSpecificationStore();
+const cartStore = useCartStore();
 const route = useRoute();
+const toast = useToast();
 
 const product = computed(() => productDataStore.product);
 const images = computed(() =>
@@ -95,4 +100,22 @@ onMounted(async () => {
     specifications.value[0]?.id ??
     null;
 });
+
+const handleAddToCart = () => {
+  cartStore.addToCart({
+    productId: product.value?.id as string,
+    product: product.value as Product,
+    specificationId: selectedSpecification.value as string,
+    specification: specifications.value.find(
+      (spec) => spec.id === selectedSpecification.value
+    ) as ProductSpecification,
+    quantity: quantity.value,
+  });
+
+  toast.add({
+    title: "Added to Cart",
+    description: `This prodfuct has been added to your cart.`,
+    icon: "i-lucide-check-circle",
+  });
+};
 </script>
