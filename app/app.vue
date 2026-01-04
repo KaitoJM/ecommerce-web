@@ -1,12 +1,9 @@
 <template>
   <UApp :toaster="toasterConfig">
     <NuxtLoadingIndicator />
-    <Header></Header>
-    <UMain>
-      <NuxtLayout>
-        <NuxtPage />
-      </NuxtLayout>
-    </UMain>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
     <Footer></Footer>
   </UApp>
 </template>
