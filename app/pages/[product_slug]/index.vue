@@ -21,7 +21,9 @@
           <p class="text-sm text-gray-600">10K+ Sold</p>
         </div>
         <span class="text-primary font-bold text-2xl">
-          {{ formatter.formatNumber(product.specification.price) }}
+          {{
+            formatter.formatNumber(selectedSpecificationObject?.price as number)
+          }}
           <span class="text-xs text-neutral">PHP</span>
         </span>
         <p>{{ product.summary }}</p>
@@ -88,6 +90,15 @@ const specifications = computed(
 
 const quantity = ref(1);
 const selectedSpecification = ref<string | null>(null);
+const selectedSpecificationObject = computed(() => {
+  if (!selectedSpecification.value) {
+    return specifications.value[0];
+  }
+
+  return specifications.value.find(
+    (item) => item.id == selectedSpecification.value
+  );
+});
 
 onMounted(async () => {
   productImageStore.getProductImages(route.params.product_slug as string);
