@@ -3,18 +3,24 @@
     <div class="mb-8">
       <Logo class="w-50" />
     </div>
-    <form class="w-80 flex flex-col gap-2">
+    <form @submit.prevent="handleLogin" class="w-80 flex flex-col gap-2">
       <UFormField label="Email">
-        <UInput placeholder="Enter your email" class="w-full" />
+        <UInput v-model="email" placeholder="Enter your email" class="w-full" />
       </UFormField>
       <UFormField label="Password">
         <UInput
+          v-model="password"
           type="password"
           placeholder="Enter your password"
           class="w-full"
         />
       </UFormField>
-      <UButton label="Login" class="flex justify-center mt-4" />
+      <UButton
+        :loading="loading"
+        type="submit"
+        label="Login"
+        class="flex justify-center mt-4"
+      />
     </form>
     <USeparator class="my-2 w-80" />
     <p class="text-sm text-left w-80">
@@ -27,8 +33,38 @@
 
 <script setup lang="ts">
 import Logo from "~/components/Logo.vue";
+import type { ApiError } from "~/types/ApiResponses.type";
 
 definePageMeta({
   layout: "gate",
 });
+
+const authentication = useAuthentication();
+const toast = useToast();
+
+const email = ref("");
+const password = ref("");
+const loading = ref(false);
+
+const handleLogin = async () => {
+  loading.value = true;
+
+  try {
+    await authentication.login({
+      email: email.value,
+      password: password.value,
+    });
+  } catch (error: unknown) {
+    const apiError = error as ApiError;
+    toast.add({
+      title: "Error",
+      description: apiError.message,
+      icon: "i-lucide-octagon-x",
+      color: "error",
+    });
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
