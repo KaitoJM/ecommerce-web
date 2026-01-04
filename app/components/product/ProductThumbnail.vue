@@ -20,6 +20,7 @@
     </span>
     <div class="flex flex-col items-center justify-between gap-1">
       <UButton
+        @click="handleAddToCart"
         label="Add to Cart"
         color="primary"
         variant="outline"
@@ -35,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import { useCartStore } from "~/store/Cart.store";
 import type { Product } from "~/types/Product.type";
 
 const props = defineProps<{
@@ -42,4 +44,22 @@ const props = defineProps<{
 }>();
 
 const formatter = useFormatter();
+const cartStore = useCartStore();
+const toast = useToast();
+
+const handleAddToCart = () => {
+  cartStore.addToCart({
+    productId: props.data.id as string,
+    product: props.data as Product,
+    specificationId: props.data.specification.id as string,
+    specification: props.data.specification,
+    quantity: 1,
+  });
+
+  toast.add({
+    title: "Added to Cart",
+    description: `This prodfuct has been added to your cart.`,
+    icon: "i-lucide-check-circle",
+  });
+};
 </script>
