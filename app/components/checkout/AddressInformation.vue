@@ -2,7 +2,7 @@
   <div>
     <h4 class="text-xs font-bold uppercase">Delivery Address</h4>
     <div class="border border-dashed border-accented rounded-lg p-4 mt-2">
-      <form class="my-4">
+      <form v-if="!isLoggedIn" class="my-4">
         <UFormField label="Country">
           <UInput placeholder="Philippines" class="w-full" />
         </UFormField>
@@ -22,6 +22,50 @@
           <UInput placeholder="7610" class="w-full" />
         </UFormField>
       </form>
+      <div v-else>
+        <div class="flex gap-8">
+          <div class="flex gap-2">
+            <UIcon name="i-lucide-map-pin" class="mt-1" />
+            <div>
+              <p class="font-bold flex gap-2 items-center">
+                Home Address
+                <UBadge label="default" variant="outline" size="sm" />
+              </p>
+              <p class="text-sm">
+                Purok 1 <br />
+                Brgy. Amampacang, <br />
+                Tinambacan District <br />
+                Calbayog City, <br />
+                Samar, 6710
+              </p>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <UIcon name="i-lucide-map-pin" class="mt-1" />
+            <div>
+              <p class="font-bold flex gap-2 items-center">Office Address</p>
+              <p class="text-sm">
+                Purok 1 <br />
+                Brgy. Amampacang, <br />
+                Tinambacan District <br />
+                Calbayog City, <br />
+                Samar, 6710
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end mt-4">
+          <UButton label="Add Address" icon="i-lucide-plus" variant="outline" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useAuthStore } from "~/store/Auth.store";
+
+const authStore = useAuthStore();
+
+const isLoggedIn = computed(() => authStore.isLoggedIn);
+</script>

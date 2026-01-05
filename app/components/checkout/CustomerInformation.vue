@@ -53,14 +53,27 @@
           </template>
         </UTabs>
       </template>
+      <template v-else>
+        <UUser
+          :name="`${authUser?.first_name} ${authUser?.last_name}`"
+          :description="authUser?.user.email"
+          :avatar="{
+            alt: `${authUser?.first_name} ${authUser?.last_name}`,
+          }"
+        />
+      </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { TabsItem } from "@nuxt/ui";
+import { useAuthStore } from "~/store/Auth.store";
 
-const isLoggedIn = ref(false);
+const authStore = useAuthStore();
+
+const isLoggedIn = computed(() => authStore.isLoggedIn);
+const authUser = computed(() => authStore.user);
 
 const tabItems = ref<TabsItem[]>([
   {
