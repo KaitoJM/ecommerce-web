@@ -18,38 +18,10 @@
             </form>
           </template>
           <template #register="{ item }">
-            <form class="my-8">
-              <UFormField label="First Name">
-                <UInput placeholder="Enter your first name" class="w-full" />
-              </UFormField>
-              <UFormField label="Last Name" class="mt-2">
-                <UInput placeholder="Enter your last name" class="w-full" />
-              </UFormField>
-              <UFormField label="Email" class="mt-2">
-                <UInput placeholder="Enter your email" class="w-full" />
-              </UFormField>
-              <UFormField label="Password" class="mt-2">
-                <UInput type="password" class="w-full" />
-              </UFormField>
-              <UFormField label="Confirm Password" class="mt-2">
-                <UInput type="password" class="w-full" />
-              </UFormField>
-              <UButton
-                label="Register"
-                class="w-full flex justify-center mt-4"
-              />
-            </form>
+            <CheckoutRegisterForm />
           </template>
           <template #login="{ item }">
-            <form class="my-8">
-              <UFormField label="Email" class="mt-2">
-                <UInput placeholder="Enter your email" class="w-full" />
-              </UFormField>
-              <UFormField label="Password" class="mt-2">
-                <UInput type="password" class="w-full" />
-              </UFormField>
-              <UButton label="Login" class="w-full flex justify-center mt-4" />
-            </form>
+            <CheckoutLoginForm />
           </template>
         </UTabs>
       </template>
@@ -69,6 +41,8 @@
 <script setup lang="ts">
 import type { TabsItem } from "@nuxt/ui";
 import { useAuthStore } from "~/store/Auth.store";
+import CheckoutRegisterForm from "./forms/CheckoutRegisterForm.vue";
+import CheckoutLoginForm from "./forms/CheckoutLoginForm.vue";
 
 const authStore = useAuthStore();
 
