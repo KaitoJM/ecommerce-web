@@ -1,30 +1,3 @@
-<script setup lang="ts">
-import type { NavigationMenuItem } from "@nuxt/ui";
-import Logo from "./Logo.vue";
-import SearchProduct from "./tools/SearchProduct.vue";
-import CartPopOver from "./cart/CartPopOver.vue";
-
-const route = useRoute();
-
-const items = computed<NavigationMenuItem[]>(() => [
-  {
-    label: "About Us",
-    to: "/about-us",
-    active: route.path.startsWith("/about-us"),
-  },
-  {
-    label: "Promo",
-    to: "/promo",
-    active: route.path.startsWith("/promo"),
-  },
-  {
-    label: "Blogs and Articles",
-    to: "https://go.nuxt.com/figma-ui",
-    target: "_blank",
-  },
-]);
-</script>
-
 <template>
   <UHeader class="bg-primary-700 h-auto" title="">
     <template #left>
@@ -71,9 +44,14 @@ const items = computed<NavigationMenuItem[]>(() => [
       <UContainer>
         <div class="flex gap-8 items-center justify-between py-2">
           <SearchProduct class="w-full max-w-xl" />
-          <div class="flex gap-2 items-center">
+          <div class="flex gap-4 items-center">
             <CartPopOver />
-            <nuxt-link to="/login" class="text-white">Login</nuxt-link>
+            <template v-if="!isLoggedIn">
+              <nuxt-link to="/login" class="text-white">Login</nuxt-link>
+            </template>
+            <template v-else>
+              <UserPopover />
+            </template>
           </div>
         </div>
       </UContainer>
@@ -84,3 +62,35 @@ const items = computed<NavigationMenuItem[]>(() => [
     </template>
   </UHeader>
 </template>
+
+<script setup lang="ts">
+import type { NavigationMenuItem } from "@nuxt/ui";
+import Logo from "./Logo.vue";
+import SearchProduct from "./tools/SearchProduct.vue";
+import CartPopOver from "./cart/CartPopOver.vue";
+import { useAuthStore } from "~/store/Auth.store";
+import UserPopover from "./UserPopover.vue";
+
+const route = useRoute();
+const authStore = useAuthStore();
+
+const isLoggedIn = computed(() => authStore.isLoggedIn);
+
+const items = computed<NavigationMenuItem[]>(() => [
+  {
+    label: "About Us",
+    to: "/about-us",
+    active: route.path.startsWith("/about-us"),
+  },
+  {
+    label: "Promo",
+    to: "/promo",
+    active: route.path.startsWith("/promo"),
+  },
+  {
+    label: "Blogs and Articles",
+    to: "https://go.nuxt.com/figma-ui",
+    target: "_blank",
+  },
+]);
+</script>

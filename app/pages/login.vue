@@ -33,14 +33,16 @@
 
 <script setup lang="ts">
 import Logo from "~/components/Logo.vue";
+import { useAuthStore } from "~/store/Auth.store";
 import type { ApiError } from "~/types/ApiResponses.type";
 
 definePageMeta({
   layout: "gate",
 });
 
-const authentication = useAuthentication();
+const authStore = useAuthStore();
 const toast = useToast();
+const router = useRouter();
 
 const email = ref("");
 const password = ref("");
@@ -50,10 +52,8 @@ const handleLogin = async () => {
   loading.value = true;
 
   try {
-    await authentication.login({
-      email: email.value,
-      password: password.value,
-    });
+    await authStore.login(email.value, password.value);
+    router.push("/");
   } catch (error: unknown) {
     const apiError = error as ApiError;
     toast.add({
