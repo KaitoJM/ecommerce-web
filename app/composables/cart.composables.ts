@@ -59,7 +59,7 @@ export const useCart = () => {
         id: string;
         product_id: string;
         product: Product;
-        specification_id: string;
+        product_specification_id: string;
         specification: ProductSpecification;
         quantity: number;
       }> = await $fetch(
@@ -75,7 +75,7 @@ export const useCart = () => {
       return res.map((item) => ({
         ...item,
         productId: item.product_id,
-        specificationId: item.specification_id,
+        specificationId: item.product_specification_id,
       }));
     } catch (error) {
       const fetchError = error as FetchError<any>;
