@@ -11,9 +11,10 @@
     </UChip>
 
     <template #content="{ close }">
-      <div class="p-4 w-80">
+      <div class="w-80">
         <template v-if="cart.length === 0">
           <UEmpty
+            class="p-4"
             variant="naked"
             icon="i-lucide-shopping-cart"
             title="Your cart is empty"
@@ -21,7 +22,7 @@
           />
         </template>
         <template v-else>
-          <ul class="flex flex-col gap-1">
+          <ul class="p-4 flex flex-col gap-1 max-h-100 overflow-auto">
             <li
               class="flex gap-2 items-center"
               v-for="(cartItem, cartIndex) in cart"
@@ -69,13 +70,15 @@
               </div>
             </li>
           </ul>
-          <UButton
-            @click="close"
-            to="/cart"
-            label="View Cart"
-            color="primary"
-            class="w-full mt-4 flex justify-center"
-          />
+          <div class="p-4">
+            <UButton
+              @click="close"
+              to="/cart"
+              label="View Cart"
+              color="primary"
+              class="w-full flex justify-center"
+            />
+          </div>
         </template>
       </div>
     </template>

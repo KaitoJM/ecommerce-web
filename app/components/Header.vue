@@ -2,7 +2,9 @@
   <UHeader class="bg-primary-700 h-auto" title="">
     <template #left>
       <div class="flex items-end gap-2 p-2">
-        <Logo class="h-8 w-auto" :white="true" />
+        <nuxt-link to="/">
+          <Logo class="h-8 w-auto" :white="true" />
+        </nuxt-link>
         <ul class="hidden lg:flex gap-3 items-center text-sm ml-8">
           <li v-for="link in items" :key="link.label">
             <nuxt-link
