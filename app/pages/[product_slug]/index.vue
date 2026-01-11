@@ -1,6 +1,7 @@
 <template>
   <UContainer>
-    <div class="flex flex-col md:flex-row gap-4 md:gap-18">
+    <ProductPageSkeleton v-if="fetchingInfo" />
+    <div v-else class="flex flex-col md:flex-row gap-4 md:gap-18">
       <ProductImageSlider :items="images" class="flex-1" />
       <div class="flex-1 flex flex-col gap-4">
         <h1 class="font-bold text-3xl">{{ product?.name }}</h1>
@@ -73,6 +74,7 @@ import { useProductSpecificationStore } from "~/store/ProductSpecification.store
 import type { Product, ProductSpecification } from "~/types/Product.type";
 import { useCartStore } from "~/store/Cart.store";
 import type { ApiError } from "~/types/ApiResponses.type";
+import ProductPageSkeleton from "~/components/preloaders/ProductPageSkeleton.vue";
 
 const productDataStore = useProductSingleStore();
 const productImageStore = useProductImageStore();
@@ -102,13 +104,17 @@ const selectedSpecificationObject = computed(() => {
   );
 });
 
+const fetchingInfo = ref(false);
 onMounted(async () => {
+  fetchingInfo.value = true;
   productImageStore.getProductImages(route.params.product_slug as string);
   await productDataStore.getProduct(route.params.product_slug as string);
 
   await productSpecificationStore.getProductSpecifications(
     route.params.product_slug as string
   );
+
+  fetchingInfo.value = false;
 
   selectedSpecification.value =
     specifications.value.find((spec) => spec.default)?.id ??
