@@ -20,6 +20,7 @@
     </span>
     <div class="flex flex-col items-center justify-between gap-1">
       <UButton
+        :loading="loading"
         @click="handleAddToCart"
         label="Add to Cart"
         color="primary"
@@ -37,6 +38,7 @@
 
 <script setup lang="ts">
 import { useCartStore } from "~/store/Cart.store";
+import type { ApiError } from "~/types/ApiResponses.type";
 import type { Product } from "~/types/Product.type";
 
 const props = defineProps<{
@@ -47,19 +49,35 @@ const formatter = useFormatter();
 const cartStore = useCartStore();
 const toast = useToast();
 
-const handleAddToCart = () => {
-  cartStore.addToCart({
-    productId: props.data.id as string,
-    product: props.data as Product,
-    specificationId: props.data.specification.id as string,
-    specification: props.data.specification,
-    quantity: 1,
-  });
+const loading = ref(false);
 
-  toast.add({
-    title: "Added to Cart",
-    description: `This prodfuct has been added to your cart.`,
-    icon: "i-lucide-check-circle",
-  });
+const handleAddToCart = async () => {
+  loading.value = true;
+  try {
+    await cartStore.addToCart({
+      productId: props.data.id as string,
+      product: props.data as Product,
+      specificationId: props.data.specification.id as string,
+      specification: props.data.specification,
+      quantity: 1,
+    });
+
+    toast.add({
+      title: "Added to Cart",
+      description: `This prodfuct has been added to your cart.`,
+      icon: "i-lucide-check-circle",
+    });
+  } catch (error) {
+    const apiError = error as ApiError;
+    toast.add({
+      title: "Error",
+      description: apiError.message,
+      icon: "i-lucide-octagon-x",
+      color: "error",
+    });
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
 };
 </script>

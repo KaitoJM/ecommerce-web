@@ -43,6 +43,7 @@
             <UInputNumber v-model="quantity" />
             <div class="mt-2 flex gap-2 items-center w-80">
               <UButton
+                :loading="loading"
                 type="submit"
                 label="Add to Cart"
                 color="primary"
@@ -71,6 +72,7 @@ import { useProductSingleStore } from "~/store/ProductSingle.store";
 import { useProductSpecificationStore } from "~/store/ProductSpecification.store";
 import type { Product, ProductSpecification } from "~/types/Product.type";
 import { useCartStore } from "~/store/Cart.store";
+import type { ApiError } from "~/types/ApiResponses.type";
 
 const productDataStore = useProductSingleStore();
 const productImageStore = useProductImageStore();
@@ -114,21 +116,36 @@ onMounted(async () => {
     null;
 });
 
-const handleAddToCart = () => {
-  cartStore.addToCart({
-    productId: product.value?.id as string,
-    product: product.value as Product,
-    specificationId: selectedSpecification.value as string,
-    specification: specifications.value.find(
-      (spec) => spec.id === selectedSpecification.value
-    ) as ProductSpecification,
-    quantity: quantity.value,
-  });
+const loading = ref(false);
+const handleAddToCart = async () => {
+  loading.value = true;
+  try {
+    await cartStore.addToCart({
+      productId: product.value?.id as string,
+      product: product.value as Product,
+      specificationId: selectedSpecification.value as string,
+      specification: specifications.value.find(
+        (spec) => spec.id === selectedSpecification.value
+      ) as ProductSpecification,
+      quantity: quantity.value,
+    });
 
-  toast.add({
-    title: "Added to Cart",
-    description: `This prodfuct has been added to your cart.`,
-    icon: "i-lucide-check-circle",
-  });
+    toast.add({
+      title: "Added to Cart",
+      description: `This prodfuct has been added to your cart.`,
+      icon: "i-lucide-check-circle",
+    });
+  } catch (error) {
+    const apiError = error as ApiError;
+    toast.add({
+      title: "Error",
+      description: apiError.message,
+      icon: "i-lucide-octagon-x",
+      color: "error",
+    });
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
