@@ -133,55 +133,84 @@ export const useCart = () => {
     }
   };
 
-  const loadCart = async (): Promise<Array<CartPayload>> => {
-    if (!auth.isLoggedIn) {
-      return cartLocal.getCart();
-    } else {
-      const cartId = await getActiveCart();
-      return await getCartItems(cartId.id);
+  const deleteCartItem = async (cartItemId: string) => {
+    try {
+      const res = await $fetch(
+        `${config.public.apiBase}/site/cart-items/${cartItemId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+            Accept: "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      const fetchError = error as FetchError<any>;
+
+      const apiError: ApiError = {
+        message:
+          fetchError.data?.message ??
+          fetchError.message ??
+          "Something went wrong",
+        errors: fetchError.data?.errors,
+        statusCode: fetchError.status,
+      };
+
+      console.error(`Failed to delete cart item:`, error);
+      throw apiError;
     }
   };
 
-  const checkStock = (
-    specification: ProductSpecification,
-    quantity: number
+  const updateCartItem = async (
+    cartItemId: string,
+    params: {
+      quantity?: number;
+      product_id?: string;
+      product_specification_id?: string;
+    }
   ) => {
-    return specification.stock >= quantity;
-  };
+    try {
+      const res: Array<{
+        id: string;
+        product_id: string;
+        product: Product;
+        specification_id: string;
+        specification: ProductSpecification;
+        quantity: number;
+      }> = await $fetch(
+        `${config.public.apiBase}/site/cart-items/${cartItemId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${auth.token}`,
+            Accept: "application/json",
+          },
+          body: params,
+        }
+      );
+    } catch (error) {
+      const fetchError = error as FetchError<any>;
 
-  const addToCart = async (params: CartPayload) => {
-    if (!auth.isLoggedIn) {
-      if (!checkStock(params.specification, params.quantity)) {
-        throw new Error("Insufficient stock for the selected specification.");
-      }
+      const apiError: ApiError = {
+        message:
+          fetchError.data?.message ??
+          fetchError.message ??
+          "Something went wrong",
+        errors: fetchError.data?.errors,
+        statusCode: fetchError.status,
+      };
 
-      console.log("Adding to cart:", params);
-      cartLocal.add(params);
-    } else {
-      await addCartItem(params);
+      console.error(`Failed to modify cart item:`, error);
+      throw apiError;
     }
   };
 
-  const removeItemFromCart = (productId: string, specificationId: string) => {
-    cartLocal.remove(productId, specificationId);
+  return {
+    getActiveCart,
+    getCartItems,
+    addCartItem,
+    deleteCartItem,
+    updateCartItem,
   };
-
-  const updateQuantity = (
-    productId: string,
-    specificationId: string,
-    quantity: number
-  ) => {
-    const carts = cartLocal.getCart();
-    const item = carts.find(
-      (i) =>
-        i.product.id === productId && i.specification.id === specificationId
-    );
-
-    if (!item) return;
-
-    item.quantity = quantity;
-    cartLocal.setCart(carts);
-  };
-
-  return { loadCart, addToCart, removeItemFromCart, updateQuantity };
 };
