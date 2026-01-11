@@ -55,8 +55,8 @@ export const useCartStore = defineStore("cartStore", () => {
       cartLocal.remove(productId, specificationId);
     } else if (item.id) {
       await cartComposable.deleteCartItem(item.id);
-      loadCart();
     }
+    loadCart();
   };
 
   const updateQuantity = async (
