@@ -6,13 +6,16 @@
         <CustomerInformation class="mt-4" />
         <AddressInformation class="mt-4" />
         <ShippingInformation class="mt-4" />
-        <!-- <PaymentInformation class="mt-4" /> -->
-        <UButton
-          :loading="loading"
-          @click="checkout"
-          label="Procced To Payment"
-          class="mt-4"
-        />
+        <PaymentInformation class="mt-4" />
+        <div class="mt-4 flex justify-end">
+          <UButton
+            :loading="loading"
+            @click="checkout"
+            size="xl"
+            label="Procced To Payment"
+            trailing-icon="i-lucide-arrow-right"
+          />
+        </div>
       </div>
       <div class="w-full md:w-1/3">
         <OrderSummary />

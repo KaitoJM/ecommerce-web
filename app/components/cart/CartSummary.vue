@@ -39,6 +39,7 @@
       label="Proceed to Checkout"
       class="flex justify-center w-full mt-8"
       size="xl"
+      trailing-icon="i-lucide-arrow-right"
     />
   </div>
 </template>
