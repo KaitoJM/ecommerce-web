@@ -35,6 +35,10 @@ import { useCartStore } from "~/store/Cart.store";
 import { useOrderStore } from "~/store/Order.store";
 import type { ApiError } from "~/types/ApiResponses.type";
 
+definePageMeta({
+  middleware: "has-order-selected",
+});
+
 const auth = useAuthStore();
 const cartStore = useCartStore();
 const orderStore = useOrderStore();
