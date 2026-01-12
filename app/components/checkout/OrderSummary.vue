@@ -3,7 +3,7 @@
 
   <div class="flex flex-col gap-2 mb-4">
     <div
-      v-for="(cartItem, cartItemIndex) in cart"
+      v-for="(cartItem, cartItemIndex) in orderItems"
       :key="`order-summary-item-${cartItemIndex}-${cartItem.product.name}`"
       class="flex gap-4 justify-between py-2 px-4 border border-accented rounded-lg"
     >
@@ -39,7 +39,7 @@
   </div>
 
   <div class="px-4 py-8 rounded-lg border border-accented">
-    <ul v-if="cart.length" class="flex flex-col gap-1">
+    <ul v-if="orderItems.length" class="flex flex-col gap-1">
       <li class="flex gap-4 justify-between items-center">
         <p>Sub Total</p>
         <p class="font-bold">
@@ -63,7 +63,7 @@
       </li>
     </ul>
     <USeparator class="my-4" />
-    <ul v-if="cart.length" class="flex flex-col gap-1">
+    <ul v-if="orderItems.length" class="flex flex-col gap-1">
       <li class="flex gap-4 justify-between items-center">
         <p>Total</p>
         <p class="font-bold text-lg text-primary">
@@ -76,16 +76,17 @@
 </template>
 
 <script setup lang="ts">
-import { useCartStore } from "~/store/Cart.store";
-const cartStore = useCartStore();
+import { useOrderStore } from "~/store/Order.store";
+const orderStore = useOrderStore();
 const specificationComposable = useSpecification();
 const formatter = useFormatter();
 
-const cart = computed(() => cartStore.carts);
+const orderItems = computed(() => orderStore.items);
+
 const subtotal = computed(() => {
   let total = 0;
 
-  cart.value.forEach((item) => {
+  orderItems.value.forEach((item) => {
     total += item.quantity * item.specification.price;
   });
 
@@ -96,9 +97,5 @@ const discount = ref(0);
 const shippingFee = ref(0);
 const total = computed(() => {
   return subtotal.value - discount.value + shippingFee.value;
-});
-
-onMounted(() => {
-  cartStore.loadCart();
 });
 </script>

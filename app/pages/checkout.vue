@@ -36,8 +36,6 @@ import { useOrderStore } from "~/store/Order.store";
 import type { ApiError } from "~/types/ApiResponses.type";
 
 const auth = useAuthStore();
-const cartComposable = useCart();
-const cartlocal = useCartLocal();
 const cartStore = useCartStore();
 const orderStore = useOrderStore();
 const order = useOrder();
@@ -62,8 +60,8 @@ const createOrder = async () => {
       email: orderStore.email,
     });
 
-    // reset cart and remove the converted ones
-    cartStore.clearCart();
+    // remove order items from cart
+    cartStore.removeOrderedItemsFromCart();
 
     router.push(`/order-summary/${createdOrder.id}`);
   } catch (error) {
@@ -86,8 +84,8 @@ const createOrderAsGuest = async () => {
       email: orderStore.email,
     });
 
-    // reset cart and remove the converted ones
-    cartStore.clearCart();
+    // remove order items from cart
+    cartStore.removeOrderedItemsFromCart();
 
     router.push(`/order-summary/${createdOrder.id}`);
   } catch (error) {

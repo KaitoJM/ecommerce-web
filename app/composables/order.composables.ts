@@ -1,6 +1,6 @@
 import type { FetchError } from "ofetch";
 import { useAuthStore } from "~/store/Auth.store";
-import { useCartStore } from "~/store/Cart.store";
+import { useOrderStore } from "~/store/Order.store";
 import type { ApiError } from "~/types/ApiResponses.type";
 import type { Order } from "~/types/Order.type";
 
@@ -11,7 +11,7 @@ export interface OrderParams {
 export const useOrder = () => {
   const config = useRuntimeConfig();
   const auth = useAuthStore();
-  const cart = useCartStore();
+  const order = useOrderStore();
 
   const addOrder = async (params: OrderParams): Promise<Order> => {
     try {
@@ -19,10 +19,10 @@ export const useOrder = () => {
         method: "POST",
         body: {
           ...params,
-          items: cart.carts.map((cart) => ({
-            product_id: cart.productId,
-            product_specification_id: cart.specificationId,
-            quantity: cart.quantity,
+          items: order.items.map((item) => ({
+            product_id: item.productId,
+            product_specification_id: item.specificationId,
+            quantity: item.quantity,
           })),
         },
         headers: {
@@ -57,10 +57,10 @@ export const useOrder = () => {
           method: "POST",
           body: {
             ...params,
-            items: cart.carts.map((cart) => ({
-              product_id: cart.productId,
-              product_specification_id: cart.specificationId,
-              quantity: cart.quantity,
+            items: order.items.map((item) => ({
+              product_id: item.productId,
+              product_specification_id: item.specificationId,
+              quantity: item.quantity,
             })),
           },
         }

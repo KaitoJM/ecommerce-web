@@ -20,6 +20,12 @@
               >
                 <td class="w-[50%] border-t border-accented border-dashed p-2">
                   <div class="flex gap-4 w-full items-center">
+                    <UCheckbox
+                      @click="handleCheckClick(cartItemIndex)"
+                      :default-value="
+                        cartIndexesOnOrder.includes(cartItemIndex)
+                      "
+                    />
                     <img
                       :src="cartItem.product.thumbnail"
                       alt="Product Image"
@@ -98,12 +104,15 @@
 <script setup lang="ts">
 import CartSummary from "~/components/cart/CartSummary.vue";
 import { useCartStore } from "~/store/Cart.store";
+import { useOrderStore } from "~/store/Order.store";
 
 const cartStore = useCartStore();
+const orderStore = useOrderStore();
 const specificationComposable = useSpecification();
 const formatter = useFormatter();
 
 const cart = computed(() => cartStore.carts);
+const cartIndexesOnOrder = computed(() => orderStore.cartItemIndexes);
 
 onMounted(() => {
   cartStore.loadCart();
@@ -111,5 +120,13 @@ onMounted(() => {
 
 const handleRemoveItemClick = (productId: string, specificationId: string) => {
   cartStore.removeItemFromCart(productId, specificationId);
+};
+
+const handleCheckClick = (indx: number) => {
+  if (cartIndexesOnOrder.value.includes(indx)) {
+    orderStore.deleteCaertItemIndex(indx);
+  } else {
+    orderStore.addCartItemIndex(indx);
+  }
 };
 </script>

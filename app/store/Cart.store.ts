@@ -2,11 +2,13 @@ import { defineStore } from "pinia";
 import type { CartPayload } from "~/types/Cart.type";
 import { useAuthStore } from "./Auth.store";
 import type { ProductSpecification } from "~/types/Product.type";
+import { useOrderStore } from "./Order.store";
 
 export const useCartStore = defineStore("cartStore", () => {
   const cartComposable = useCart();
   const cartLocal = useCartLocal();
   const auth = useAuthStore();
+  const orderStore = useOrderStore();
 
   const carts = ref<Array<CartPayload>>([]);
 
@@ -91,6 +93,14 @@ export const useCartStore = defineStore("cartStore", () => {
     }
   };
 
+  const removeOrderedItemsFromCart = async () => {
+    for (const item of orderStore.items) {
+      await removeItemFromCart(item.productId, item.specificationId);
+    }
+
+    orderStore.clearItemIndexes();
+  };
+
   return {
     carts,
     clearCart,
@@ -98,5 +108,6 @@ export const useCartStore = defineStore("cartStore", () => {
     addToCart,
     removeItemFromCart,
     updateQuantity,
+    removeOrderedItemsFromCart,
   };
 });
