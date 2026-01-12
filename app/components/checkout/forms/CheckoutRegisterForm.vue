@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "~/store/Auth.store";
+import { useOrderStore } from "~/store/Order.store";
 import type { ApiError } from "~/types/ApiResponses.type";
 
 definePageMeta({
@@ -42,6 +43,7 @@ definePageMeta({
 
 const registrationComposable = useRegistration();
 const authStore = useAuthStore();
+const orderStore = useOrderStore();
 const toast = useToast();
 const router = useRouter();
 
@@ -70,6 +72,7 @@ const handleSubmit = async () => {
 
     await registrationComposable.register(params);
     await authStore.login(email.value, password.value);
+    orderStore.setEmail(email.value);
     toast.add({
       title: "Success",
       description: "Registration successful",

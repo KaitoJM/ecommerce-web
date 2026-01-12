@@ -13,7 +13,11 @@
           <template #guest="{ item }">
             <form class="my-8">
               <UFormField label="Email">
-                <UInput placeholder="Enter your email" class="w-full" />
+                <UInput
+                  v-model="email"
+                  placeholder="Enter your email"
+                  class="w-full"
+                />
               </UFormField>
             </form>
           </template>
@@ -43,11 +47,18 @@ import type { TabsItem } from "@nuxt/ui";
 import { useAuthStore } from "~/store/Auth.store";
 import CheckoutRegisterForm from "./forms/CheckoutRegisterForm.vue";
 import CheckoutLoginForm from "./forms/CheckoutLoginForm.vue";
+import { useOrderStore } from "~/store/Order.store";
 
 const authStore = useAuthStore();
+const orderStore = useOrderStore();
 
 const isLoggedIn = computed(() => authStore.isLoggedIn);
 const authUser = computed(() => authStore.user);
+
+const email = computed({
+  get: () => orderStore.email,
+  set: (value) => (orderStore!.email = value),
+});
 
 const tabItems = ref<TabsItem[]>([
   {

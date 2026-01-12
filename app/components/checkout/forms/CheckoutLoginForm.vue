@@ -17,6 +17,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "~/store/Auth.store";
+import { useOrderStore } from "~/store/Order.store";
 import type { ApiError } from "~/types/ApiResponses.type";
 
 definePageMeta({
@@ -26,6 +27,7 @@ definePageMeta({
 const authStore = useAuthStore();
 const toast = useToast();
 const router = useRouter();
+const orderStore = useOrderStore();
 
 const email = ref("");
 const password = ref("");
@@ -36,6 +38,7 @@ const handleLogin = async () => {
 
   try {
     await authStore.login(email.value, password.value);
+    orderStore.setEmail(email.value);
   } catch (error: unknown) {
     const apiError = error as ApiError;
     toast.add({

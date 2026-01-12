@@ -53,6 +53,31 @@ export const useCart = () => {
     }
   };
 
+  const getActiveCartGuest = async (): Promise<CartObject> => {
+    try {
+      const res: CartObject = await $fetch(
+        `${config.public.apiBase}/site/carts-active-guest`
+      );
+
+      activeCart.value = res;
+      return res;
+    } catch (error) {
+      const fetchError = error as FetchError<any>;
+
+      const apiError: ApiError = {
+        message:
+          fetchError.data?.message ??
+          fetchError.message ??
+          "Something went wrong",
+        errors: fetchError.data?.errors,
+        statusCode: fetchError.status,
+      };
+
+      console.error(`Failed to fetch active cart:`, error);
+      throw apiError;
+    }
+  };
+
   const getCartItems = async (cartId: string): Promise<Array<CartPayload>> => {
     try {
       const res: Array<{
@@ -208,6 +233,7 @@ export const useCart = () => {
 
   return {
     getActiveCart,
+    getActiveCartGuest,
     getCartItems,
     addCartItem,
     deleteCartItem,
