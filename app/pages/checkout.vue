@@ -56,9 +56,9 @@ const checkout = async () => {
     cartId = cart.id;
 
     // store cart items
-    cartStore.carts.forEach(async (cart) => {
+    for (const cart of cartStore.carts) {
       await cartComposable.addCartItem(cart);
-    });
+    }
   }
 
   try {
