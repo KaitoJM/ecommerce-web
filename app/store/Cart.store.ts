@@ -19,6 +19,15 @@ export const useCartStore = defineStore("cartStore", () => {
     }
   };
 
+  const clearCart = () => {
+    if (!auth.isLoggedIn) {
+      cartLocal.setCart([]);
+      carts.value = [];
+    } else {
+      loadCart();
+    }
+  };
+
   const checkStock = (
     specification: ProductSpecification,
     quantity: number
@@ -84,6 +93,7 @@ export const useCartStore = defineStore("cartStore", () => {
 
   return {
     carts,
+    clearCart,
     loadCart,
     addToCart,
     removeItemFromCart,

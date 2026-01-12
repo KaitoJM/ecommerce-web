@@ -29,6 +29,7 @@ import type { ApiError } from "~/types/ApiResponses.type";
 
 const auth = useAuthStore();
 const cartComposable = useCart();
+const cartlocal = useCartLocal();
 const cartStore = useCartStore();
 const orderStore = useOrderStore();
 const order = useOrder();
@@ -57,6 +58,9 @@ const checkout = async () => {
       cart_id: cartId,
       email: orderStore.email,
     });
+
+    // reset cart and remove the converted ones
+    cartStore.clearCart();
 
     router.push(`/order-summary/${createdOrder.id}`);
   } catch (error) {
