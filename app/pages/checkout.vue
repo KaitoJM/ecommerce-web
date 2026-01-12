@@ -6,8 +6,13 @@
         <CustomerInformation class="mt-4" />
         <AddressInformation class="mt-4" />
         <ShippingInformation class="mt-4" />
-        <PaymentInformation class="mt-4" />
-        <UButton @click="checkout" label="Procced To Payment" class="mt-4" />
+        <!-- <PaymentInformation class="mt-4" /> -->
+        <UButton
+          :loading="loading"
+          @click="checkout"
+          label="Procced To Payment"
+          class="mt-4"
+        />
       </div>
       <div class="w-full md:w-1/3">
         <OrderSummary />
@@ -36,7 +41,10 @@ const order = useOrder();
 const toast = useToast();
 const router = useRouter();
 
+const loading = ref(false);
+
 const checkout = async () => {
+  loading.value = true;
   let cartId: string | null = null;
 
   if (auth.isLoggedIn && auth.user) {
@@ -72,6 +80,8 @@ const checkout = async () => {
       color: "error",
     });
     console.error(error);
+  } finally {
+    loading.value = false;
   }
 };
 </script>
