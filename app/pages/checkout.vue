@@ -48,25 +48,41 @@ const loading = ref(false);
 
 const checkout = async () => {
   loading.value = true;
-  let cartId: string | null = null;
-
-  if (auth.isLoggedIn && auth.user) {
-    const cart = await cartComposable.getActiveCart();
-    cartId = cart.id;
+  if (auth.isLoggedIn && auth.user?.user.email) {
     orderStore.setEmail(auth.user.user.email);
+    createOrder();
   } else {
-    const cart = await cartComposable.getActiveCartGuest();
-    cartId = cart.id;
-
-    // store cart items
-    for (const cart of cartStore.carts) {
-      await cartComposable.addCartItem(cart);
-    }
+    createOrderAsGuest();
   }
+};
 
+const createOrder = async () => {
   try {
     const createdOrder = await order.addOrder({
-      cart_id: cartId,
+      email: orderStore.email,
+    });
+
+    // reset cart and remove the converted ones
+    cartStore.clearCart();
+
+    router.push(`/order-summary/${createdOrder.id}`);
+  } catch (error) {
+    const apiError = error as ApiError;
+    toast.add({
+      title: "Error",
+      description: apiError.message,
+      icon: "i-lucide-octagon-x",
+      color: "error",
+    });
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const createOrderAsGuest = async () => {
+  try {
+    const createdOrder = await order.addOrderAsGuest({
       email: orderStore.email,
     });
 

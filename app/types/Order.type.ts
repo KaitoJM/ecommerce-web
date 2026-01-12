@@ -1,8 +1,7 @@
 export interface Order {
   id: string;
   customer_id?: string;
-  session_id?: string;
-  cart_id: string;
+  is_guest: boolean;
   status_id: string;
   email: string;
   subtotal: number;
