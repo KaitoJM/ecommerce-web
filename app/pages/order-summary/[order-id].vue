@@ -1,7 +1,8 @@
 <template>
   <UContainer>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, corporis
-    facilis? Ad tempora, voluptatibus ea numquam excepturi eius laboriosam rerum
-    cumque vero eos, distinctio labore, dolor cupiditate! Eaque, eligendi dicta?
+    <div class="max-w-100 mx-auto text-center">
+      <h1 class="text-2xl font-bold">Thank you for your purchase!</h1>
+      <h2 class="text-lg mt-2 text-accented">Your order is successful!</h2>
+    </div>
   </UContainer>
 </template>
