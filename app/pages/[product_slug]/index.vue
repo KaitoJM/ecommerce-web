@@ -52,6 +52,7 @@
                 class="flex-1 flex justify-center"
               />
               <UButton
+                @click="handleBuyNow(product)"
                 label="Buy Now"
                 color="primary"
                 size="xl"
@@ -75,12 +76,15 @@ import type { Product, ProductSpecification } from "~/types/Product.type";
 import { useCartStore } from "~/store/Cart.store";
 import type { ApiError } from "~/types/ApiResponses.type";
 import ProductPageSkeleton from "~/components/preloaders/ProductPageSkeleton.vue";
+import { useOrderStore } from "~/store/Order.store";
 
 const productDataStore = useProductSingleStore();
 const productImageStore = useProductImageStore();
 const productSpecificationStore = useProductSpecificationStore();
 const cartStore = useCartStore();
+const orderStore = useOrderStore();
 const route = useRoute();
+const router = useRouter();
 const toast = useToast();
 const formatter = useFormatter();
 
@@ -153,5 +157,19 @@ const handleAddToCart = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+const handleBuyNow = (product: Product) => {
+  orderStore.clearItems();
+
+  orderStore.addItem({
+    productId: product.id,
+    product: product,
+    specificationId: product.specification.id,
+    specification: product.specification,
+    quantity: 1,
+  });
+
+  router.push("/checkout");
 };
 </script>

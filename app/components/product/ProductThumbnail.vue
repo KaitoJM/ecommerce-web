@@ -35,6 +35,7 @@
         class="w-full flex justify-center"
       />
       <UButton
+        @click="handleBuyNow(data)"
         label="Buy Now"
         color="primary"
         class="w-full flex justify-center"
@@ -45,7 +46,9 @@
 
 <script setup lang="ts">
 import { useCartStore } from "~/store/Cart.store";
+import { useOrderStore } from "~/store/Order.store";
 import type { ApiError } from "~/types/ApiResponses.type";
+import type { CartPayload } from "~/types/Cart.type";
 import type { Product } from "~/types/Product.type";
 
 const props = defineProps<{
@@ -54,7 +57,9 @@ const props = defineProps<{
 
 const formatter = useFormatter();
 const cartStore = useCartStore();
+const orderStore = useOrderStore();
 const toast = useToast();
+const router = useRouter();
 
 const loading = ref(false);
 
@@ -86,5 +91,19 @@ const handleAddToCart = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+const handleBuyNow = (product: Product) => {
+  orderStore.clearItems();
+
+  orderStore.addItem({
+    productId: product.id,
+    product: product,
+    specificationId: product.specification.id,
+    specification: product.specification,
+    quantity: 1,
+  });
+
+  router.push("/checkout");
 };
 </script>
