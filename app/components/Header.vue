@@ -91,8 +91,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   },
   {
     label: "Blogs and Articles",
-    to: "https://go.nuxt.com/figma-ui",
-    target: "_blank",
+    to: "blogs-and-articles",
   },
 ]);
 </script>
