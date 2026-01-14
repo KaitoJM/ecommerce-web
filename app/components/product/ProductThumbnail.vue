@@ -1,17 +1,24 @@
 <template>
   <div>
-    <img
-      :src="data.thumbnail"
-      alt="Product Image"
-      class="w-full h-48 object-cover rounded-lg mb-2"
-    />
-    <nuxt-link
-      :to="`/${data.id}`"
-      class="font-bold text-sm max-w-full overflow-hidden whitespace-nowrap ellipsis block hover:text-primary"
-    >
-      {{ data.name }}
+    <nuxt-link :to="`/${data.id}`">
+      <NuxtImg
+        :src="data.thumbnail"
+        alt="Product Image"
+        format="webp"
+        quality="80"
+        placeholder="blur"
+        class="aspect-4/3 w-full object-contain rounded-lg mb-2 bg-neutral-50 p-2"
+      />
     </nuxt-link>
-    <p class="text-gray-600 mb-2 text-xs">
+    <UTooltip :text="data.name">
+      <nuxt-link
+        :to="`/${data.id}`"
+        class="font-bold text-sm max-w-full truncate block hover:text-primary"
+      >
+        {{ data.name }}
+      </nuxt-link>
+    </UTooltip>
+    <p class="text-gray-600 mb-2 text-xs h-8 max-h-8 multi-line-ellipsis mb-4">
       {{ data.summary }}
     </p>
     <span class="text-primary font-bold block my-2">
