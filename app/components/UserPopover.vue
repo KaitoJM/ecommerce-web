@@ -23,7 +23,9 @@
         <USeparator class="my-3" />
         <ul>
           <li>
-            <nuxt-link to="/profile" class="block w-full py-1 text-sm"
+            <nuxt-link
+              to="/user/account/profile"
+              class="block w-full py-1 text-sm"
               >My Profile</nuxt-link
             >
           </li>
