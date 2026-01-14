@@ -70,11 +70,21 @@
               </div>
             </li>
           </ul>
-          <div class="p-4">
+          <div class="p-4 flex flex-col gap-1">
             <UButton
               @click="close"
               to="/cart"
               label="View Cart"
+              color="primary"
+              class="w-full flex justify-center"
+              variant="outline"
+            />
+            <UButton
+              @click="
+                handleCheckout();
+                close();
+              "
+              label="Proceed to Checkout"
               color="primary"
               class="w-full flex justify-center"
             />
@@ -87,10 +97,13 @@
 
 <script setup lang="ts">
 import { useCartStore } from "~/store/Cart.store";
+import { useOrderStore } from "~/store/Order.store";
 
 const cartStore = useCartStore();
+const orderStore = useOrderStore();
 const specificationComposable = useSpecification();
 const formatter = useFormatter();
+const router = useRouter();
 
 const cart = computed(() => cartStore.carts);
 
@@ -100,5 +113,13 @@ onMounted(() => {
 
 const handleRemoveItemClick = (productId: string, specificationId: string) => {
   cartStore.removeItemFromCart(productId, specificationId);
+};
+
+const handleCheckout = () => {
+  cart.value.forEach((item, indx) => {
+    orderStore.addCartItemIndex(indx);
+  });
+
+  router.push("/checkout");
 };
 </script>
