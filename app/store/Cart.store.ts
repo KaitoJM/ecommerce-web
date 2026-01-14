@@ -98,7 +98,7 @@ export const useCartStore = defineStore("cartStore", () => {
       await removeItemFromCart(item.productId, item.specificationId);
     }
 
-    orderStore.clearItemIndexes();
+    orderStore.clearItems();
   };
 
   return {

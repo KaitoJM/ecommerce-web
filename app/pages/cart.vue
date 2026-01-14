@@ -21,9 +21,9 @@
                 <td class="w-[50%] border-t border-accented border-dashed p-2">
                   <div class="flex gap-4 w-full items-center">
                     <UCheckbox
-                      @click="handleCheckClick(cartItemIndex)"
+                      @click="handleCheckClick(cartItem)"
                       :default-value="
-                        cartIndexesOnOrder.includes(cartItemIndex)
+                        orderStore.checkExist(cartItem)?.id ? true : false
                       "
                     />
                     <img
@@ -54,13 +54,8 @@
                     :min="1"
                     v-model="cartItem.quantity"
                     @update:model-value="
-                        (value) =>
-                          cartStore.updateQuantity(
-                            cartItem.product.id,
-                            cartItem.specification.id,
-                            value as number
-                          )
-                      "
+                      (value) => handleUpdateCartQuantity(cartItem, value as number)
+                    "
                   />
                 </td>
                 <td class="w-2/12 border-t border-accented border-dashed p-2">
@@ -105,6 +100,7 @@
 import CartSummary from "~/components/cart/CartSummary.vue";
 import { useCartStore } from "~/store/Cart.store";
 import { useOrderStore } from "~/store/Order.store";
+import type { CartPayload } from "~/types/Cart.type";
 
 const cartStore = useCartStore();
 const orderStore = useOrderStore();
@@ -112,7 +108,6 @@ const specificationComposable = useSpecification();
 const formatter = useFormatter();
 
 const cart = computed(() => cartStore.carts);
-const cartIndexesOnOrder = computed(() => orderStore.cartItemIndexes);
 
 onMounted(() => {
   cartStore.loadCart();
@@ -122,11 +117,24 @@ const handleRemoveItemClick = (productId: string, specificationId: string) => {
   cartStore.removeItemFromCart(productId, specificationId);
 };
 
-const handleCheckClick = (indx: number) => {
-  if (cartIndexesOnOrder.value.includes(indx)) {
-    orderStore.deleteCaertItemIndex(indx);
+const handleUpdateCartQuantity = async (
+  cartItem: CartPayload,
+  value: number
+) => {
+  await cartStore.updateQuantity(
+    cartItem.product.id,
+    cartItem.specification.id,
+    value
+  );
+
+  orderStore.updateItem(cartItem);
+};
+
+const handleCheckClick = (cartItem: CartPayload) => {
+  if (!orderStore.checkExist(cartItem)) {
+    orderStore.addItem(cartItem);
   } else {
-    orderStore.addCartItemIndex(indx);
+    orderStore.deleteItem(cartItem);
   }
 };
 </script>

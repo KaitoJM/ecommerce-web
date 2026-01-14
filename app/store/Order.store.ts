@@ -1,48 +1,61 @@
 import { defineStore } from "pinia";
-import { useCartStore } from "./Cart.store";
 import type { CartPayload } from "~/types/Cart.type";
 
 export const useOrderStore = defineStore("orderStore", () => {
-  const cartStore = useCartStore();
   const email = ref<string>("");
-
-  const items = computed<Array<CartPayload>>(() => {
-    let orderItems: Array<CartPayload> = [];
-
-    cartStore.carts.forEach((cartItem, indx) => {
-      if (cartItemIndexes.value.includes(indx)) {
-        orderItems.push(cartItem);
-      }
-    });
-
-    return orderItems;
-  });
-
-  const cartItemIndexes = ref<Array<number>>([]);
+  const items = ref<Array<CartPayload>>([]);
 
   const setEmail = (emailValue: string) => {
     email.value = emailValue;
   };
 
-  const addCartItemIndex = (indx: number) => {
-    cartItemIndexes.value.push(indx);
+  const addItem = (item: CartPayload) => {
+    items.value.push(item);
   };
 
-  const deleteCaertItemIndex = (indx: number) => {
-    cartItemIndexes.value.splice(cartItemIndexes.value.indexOf(indx), 1);
+  const updateItem = (item: CartPayload) => {
+    const toBeUpdatedItem = checkExist(item);
+
+    if (!toBeUpdatedItem) {
+      return;
+    }
+
+    toBeUpdatedItem.quantity = item.quantity;
   };
 
-  const clearItemIndexes = () => {
-    cartItemIndexes.value = [];
+  const deleteItem = (item: CartPayload) => {
+    const toBeDeletedItem = checkExist(item);
+
+    if (!toBeDeletedItem) {
+      return;
+    }
+
+    items.value.splice(items.value.indexOf(toBeDeletedItem), 1);
+  };
+
+  const checkExist = (item: CartPayload): CartPayload | null => {
+    const check: CartPayload | null =
+      items.value.find(
+        (i) =>
+          i.productId == item.productId &&
+          i.specificationId == item.specificationId
+      ) || null;
+
+    return check;
+  };
+
+  const clearItems = () => {
+    items.value = [];
   };
 
   return {
     email,
     setEmail,
     items,
-    cartItemIndexes,
-    addCartItemIndex,
-    deleteCaertItemIndex,
-    clearItemIndexes,
+    addItem,
+    updateItem,
+    deleteItem,
+    checkExist,
+    clearItems,
   };
 });

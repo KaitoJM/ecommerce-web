@@ -116,8 +116,9 @@ const handleRemoveItemClick = (productId: string, specificationId: string) => {
 };
 
 const handleCheckout = () => {
-  cart.value.forEach((item, indx) => {
-    orderStore.addCartItemIndex(indx);
+  orderStore.clearItems();
+  cart.value.forEach((item) => {
+    orderStore.addItem(item);
   });
 
   router.push("/checkout");
