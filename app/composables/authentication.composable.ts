@@ -34,7 +34,7 @@ export const useAuthentication = () => {
           statusCode: fetchError.status,
         };
 
-        console.error(`Failed to fetch products:`, error);
+        console.error(`Failed to login:`, error);
         throw apiError;
       } else {
         const apiError: ApiError = {
@@ -46,7 +46,7 @@ export const useAuthentication = () => {
           statusCode: fetchError.status,
         };
 
-        console.error(`Failed to fetch products:`, error);
+        console.error(`Failed to login:`, error);
         throw apiError;
       }
     }
