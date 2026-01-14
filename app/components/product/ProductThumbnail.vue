@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt-link :to="`/${data.id}`">
+    <nuxt-link :to="`/product/${data.id}`">
       <NuxtImg
         :src="data.thumbnail"
         alt="Product Image"
@@ -12,7 +12,7 @@
     </nuxt-link>
     <UTooltip :text="data.name">
       <nuxt-link
-        :to="`/${data.id}`"
+        :to="`/product/${data.id}`"
         class="font-bold text-sm max-w-full truncate block hover:text-primary"
       >
         {{ data.name }}
