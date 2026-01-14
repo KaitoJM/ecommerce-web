@@ -110,6 +110,7 @@ const formatter = useFormatter();
 const cart = computed(() => cartStore.carts);
 
 onMounted(() => {
+  orderStore.clearItems();
   cartStore.loadCart();
 });
 
