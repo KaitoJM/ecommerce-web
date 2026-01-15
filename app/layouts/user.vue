@@ -13,11 +13,11 @@
             <USeparator class="py-4" />
             <ul class="text-sm flex flex-col gap-4">
               <li>
-                <p class="font-bold mt-4 flex gap-2 items-center">
+                <p class="font-bold mt-4 flex gap-2 items-center text-primary">
                   <UIcon name="i-lucide-user" />
                   My Account
                 </p>
-                <ul class="ml-4 flex flex-col gap-2 pt-2">
+                <ul class="ml-4 flex flex-col gap-2 pt-2 text-neutral-500">
                   <li>
                     <nuxt-link to="/user/account/profile">Profile</nuxt-link>
                   </li>
@@ -36,8 +36,11 @@
                   </li>
                 </ul>
               </li>
-              <li class="font-bold">
-                <nuxt-link to="/user/purchases" class="flex gap-2 items-center">
+              <li>
+                <nuxt-link
+                  to="/user/purchases"
+                  class="flex gap-2 items-center font-bold text-primary"
+                >
                   <UIcon name="i-lucide-clipboard-list" />
                   My Purchases
                 </nuxt-link>
