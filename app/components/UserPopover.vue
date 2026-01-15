@@ -13,7 +13,7 @@
       icon="i-lucide-user"
     />
 
-    <template #content>
+    <template #content="{ close }">
       <div class="w-80 p-4">
         <UUser
           :name="authUser?.user.name"
@@ -24,13 +24,17 @@
         <ul>
           <li>
             <nuxt-link
+              @click="close()"
               to="/user/account/profile"
               class="block w-full py-1 text-sm"
               >My Profile</nuxt-link
             >
           </li>
           <li>
-            <nuxt-link to="/purchases" class="block w-full py-1 text-sm"
+            <nuxt-link
+              @click="close()"
+              to="/user/my-purchases"
+              class="block w-full py-1 text-sm"
               >My Purchases</nuxt-link
             >
           </li>
