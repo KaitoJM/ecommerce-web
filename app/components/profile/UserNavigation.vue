@@ -11,7 +11,7 @@ import NavigationSubItem from "./NavigationSubItem.vue";
         url="/user/account/banks-cards"
         label="Banks & Cards"
       />
-      <NavigationSubItem url="/user/account/addreses" label="Addresses" />
+      <NavigationSubItem url="/user/account/addresses" label="Addresses" />
       <NavigationSubItem
         url="/user/account/change-password"
         label="Change Password"
@@ -20,7 +20,7 @@ import NavigationSubItem from "./NavigationSubItem.vue";
     <NavigationItem
       label="My Purchases"
       icon="i-lucide-clipboard-list"
-      url="/users/my-purchases"
+      url="/user/my-purchases"
     />
   </ul>
 </template>
