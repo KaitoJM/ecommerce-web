@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-neutral-50 px-6 py-4">
+  <div class="bg-neutral-50 px-6 py-4 rounded-lg">
     <h1 class="font-bold">My Profile</h1>
     <p class="text-xs">Manage and protect your account</p>
     <USeparator class="my-4" />

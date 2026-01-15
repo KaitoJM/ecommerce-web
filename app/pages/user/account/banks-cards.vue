@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-neutral-50 px-6 py-4">
+  <div class="bg-neutral-50 px-6 py-4 rounded-lg">
     <h1 class="font-bold">Banks & Cards</h1>
     <USeparator class="my-4" />
     Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam tempora ut
