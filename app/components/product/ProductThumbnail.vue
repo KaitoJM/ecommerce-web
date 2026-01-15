@@ -3,12 +3,20 @@
     <nuxt-link :to="`/product/${data.id}`">
       <NuxtImg
         :src="data.thumbnail"
-        alt="Product Image"
+        :alt="data.name"
         format="webp"
-        quality="80"
-        placeholder="blur"
         class="aspect-4/3 w-full object-contain rounded-lg mb-2 bg-neutral-50 p-2"
-      />
+        :custom="true"
+        v-slot="{ src, isLoaded, imgAttrs }"
+      >
+        <img v-if="isLoaded" v-bind="imgAttrs" :src="src" />
+        <img
+          v-else
+          :src="`https://placehold.co/400x300?text=Loading...`"
+          class="aspect-4/3 w-full object-contain rounded-lg mb-2 bg-neutral-50 p-2"
+          alt="placeholder"
+        />
+      </NuxtImg>
     </nuxt-link>
     <UTooltip :text="data.name">
       <nuxt-link

@@ -26,11 +26,22 @@
                         orderStore.checkExist(cartItem)?.id ? true : false
                       "
                     />
-                    <img
+                    <NuxtImg
                       :src="cartItem.product.thumbnail"
-                      alt="Product Image"
+                      :alt="cartItem.product.name"
+                      format="webp"
                       class="w-12 h-12 object-cover rounded border border-accented"
-                    />
+                      :custom="true"
+                      v-slot="{ src, isLoaded, imgAttrs }"
+                    >
+                      <img v-if="isLoaded" v-bind="imgAttrs" :src="src" />
+                      <img
+                        v-else
+                        :src="`https://placehold.co/50x50?text=Loading...`"
+                        alt="placeholder"
+                        class="w-12 h-12 object-cover rounded border border-accented"
+                      />
+                    </NuxtImg>
                     <div>
                       <p class="font-bold">{{ cartItem.product.name }}</p>
                       <p class="text-sm text-gray-600">
