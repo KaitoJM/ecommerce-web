@@ -6,22 +6,26 @@
     <div class="flex gap-8">
       <form class="flex-1 flex flex-col gap-2">
         <UFormField label="First name">
-          <UInput placeholder="Juan" class="w-full" />
+          <UInput v-model="first_name" placeholder="Juan" class="w-full" />
         </UFormField>
         <UFormField label="Last name">
-          <UInput placeholder="Dela Cruz" class="w-full" />
+          <UInput v-model="last_name" placeholder="Dela Cruz" class="w-full" />
         </UFormField>
         <UFormField label="Email">
-          <UInput placeholder="juandelacruz@example.com" class="w-full" />
+          <p class="text-sm text-neutral-500">{{ auth.user?.user.email }}</p>
         </UFormField>
         <UFormField label="Phone number">
-          <UInput placeholder="Enter your phone number." class="w-full" />
+          <UInput
+            v-model="phone"
+            placeholder="Enter your phone number."
+            class="w-full"
+          />
         </UFormField>
         <UFormField label="Gender">
-          <UInput class="w-full" />
+          <UInput v-model="gender" class="w-full" />
         </UFormField>
         <UFormField label="Date of birth">
-          <UInput class="w-full" />
+          <UInput v-model="birthday" class="w-full" />
         </UFormField>
         <div class="flex justify-end mt-4">
           <UButton label="Update" variant="outline" />
@@ -40,8 +44,18 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/store/Auth.store";
+
 definePageMeta({
   layout: "user",
   middleware: "auth",
 });
+
+const auth = useAuthStore();
+
+const first_name = ref(auth.user?.first_name);
+const last_name = ref(auth.user?.last_name);
+const phone = ref("");
+const gender = ref(auth.user?.gender);
+const birthday = ref(auth.user?.birthday);
 </script>
