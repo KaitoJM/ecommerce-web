@@ -11,41 +11,7 @@
               :avatar="{ alt: user?.user.name }"
             />
             <USeparator class="py-4" />
-            <ul class="text-sm flex flex-col gap-4">
-              <li>
-                <p class="font-bold mt-4 flex gap-2 items-center text-primary">
-                  <UIcon name="i-lucide-user" />
-                  My Account
-                </p>
-                <ul class="ml-4 flex flex-col gap-2 pt-2 text-neutral-500">
-                  <li>
-                    <nuxt-link to="/user/account/profile">Profile</nuxt-link>
-                  </li>
-                  <li>
-                    <nuxt-link to="/user/account/banks-cards"
-                      >Banks & Cards</nuxt-link
-                    >
-                  </li>
-                  <li>
-                    <nuxt-link to="/user/account/addreses">Addresses</nuxt-link>
-                  </li>
-                  <li>
-                    <nuxt-link to="/user/account/change-password"
-                      >Change Password</nuxt-link
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <nuxt-link
-                  to="/user/purchases"
-                  class="flex gap-2 items-center font-bold text-primary"
-                >
-                  <UIcon name="i-lucide-clipboard-list" />
-                  My Purchases
-                </nuxt-link>
-              </li>
-            </ul>
+            <UserNavigation />
           </div>
           <div class="flex-1">
             <slot></slot>
@@ -57,6 +23,7 @@
 </template>
 
 <script setup lang="ts">
+import UserNavigation from "~/components/profile/UserNavigation.vue";
 import { useAuthStore } from "~/store/Auth.store";
 
 const authStore = useAuthStore();
